@@ -1,6 +1,6 @@
 package com.edsh.is_lab1.service;
 
-import com.edsh.is_lab1.dto.LoginRequest;
+import com.edsh.is_lab1.dto.AuthRequest;
 import com.edsh.is_lab1.entity.User;
 import com.edsh.is_lab1.exception.AppException;
 import com.edsh.is_lab1.repository.UserRepository;
@@ -21,19 +21,19 @@ public class UserService {
                 .orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
     }
 
-    public User login(LoginRequest loginRequest) {
-        User user = findByLogin(loginRequest.getLogin());
-        if(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+    public User login(AuthRequest authRequest) {
+        User user = findByLogin(authRequest.getLogin());
+        if(passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             return user;
         }
         throw new AppException("Wrong password", HttpStatus.BAD_REQUEST);
     }
 
-    public User register(LoginRequest loginRequest) {
-        if (userRepository.findByLogin(loginRequest.getLogin()).isPresent()) {
+    public User register(AuthRequest authRequest) {
+        if (userRepository.findByLogin(authRequest.getLogin()).isPresent()) {
             throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
         }
-        User user = loginRequest.asUser(passwordEncoder);
+        User user = authRequest.asUser(passwordEncoder);
         user.setPermission(User.Permission.USER);
         userRepository.save(user);
         return user;

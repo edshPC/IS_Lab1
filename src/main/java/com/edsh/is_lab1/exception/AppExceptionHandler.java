@@ -1,6 +1,6 @@
 package com.edsh.is_lab1.exception;
 
-import com.edsh.is_lab1.dto.Response;
+import com.edsh.is_lab1.dto.AuthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,9 +11,9 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(value = {AppException.class})
     @ResponseBody
-    public ResponseEntity<Response> handle(AppException e) {
+    public ResponseEntity<AuthResponse> handle(AppException e) {
         return ResponseEntity.status(e.getStatus())
-                .body(Response.builder()
+                .body(AuthResponse.builder()
                         .message(e.getMessage())
                         .success(false)
                         .build());
