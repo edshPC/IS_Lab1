@@ -1,38 +1,139 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: sans-serif;
+  color: #c9d1d9;
+  display: block;
+  background-color: #0d1117;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: #21262d;
+  border-radius: 0.2em;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #3a424f;
+  border-radius: 0.2em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.container {
+  background-color: #161b22;
+  border: 1px solid darkgray;
+  padding: 10px 20px;
+  margin: 5px 7px;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 0.6em;
 }
 
-.App-link {
-  color: #61dafb;
+#main-table {
+  vertical-align: top;
+  display: table;
+  height: fit-content;
+  width: fit-content;
+  padding: 0;
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#main-table .row-like .cell-like {
+  vertical-align: top;
+  display: table-cell;
+}
+
+button:hover, #y-select:focus {
+  background-color: #30363d;
+  border-color: #8b949e;
+}
+
+button, .box, #result-table tr td {
+  color: #c9d1d9;
+  background-color: #21262d;
+  padding: 2px;
+  border: 2px solid rgba(240, 246, 252, 0.1);
+}
+
+button {
+  cursor: pointer;
+}
+
+.small-button {
+  width: 25px;
+  height: 25px;
+  position: relative;
+}
+
+button:active {
+  background-color: #6b6e39;
+}
+
+.rounded {
+  border-radius: 0.4em;
+}
+
+#header {
+  font-family: cursive;
+  color: #d5dfe8;
+  font-size: 16px;
+}
+
+#graph, .calculator {
+  width: 400px;
+  height: 400px;
+  padding: 0;
+  margin: 10px;
+}
+#graph-container {
+  padding: 0;
+  border-radius: 0.2em;
+}
+
+#y-select {
+  margin: 0 2px;
+  width: 79px;
+  height: 30px;
+}
+
+#result-table {
+  display: block;
+  width: fit-content;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+#result-table tr td {
+  margin: 10px;
+  padding: 0 10px;
+  width: fit-content;
+  border-radius: 0.2em;
+}
+#result-table #first-row td {
+  background-color: #3a424f;
+}
+
+.red-border {
+  border: 2px solid #8c2121;
+  border-radius: 0.4em;
+}
+.small-button.selected, #result-table .last-row-hit td {
+  background-color: #43735d;
+}
+#result-table .last-row-miss td {
+  background-color: #653b3b;
+}
+
+.redirect {
+  font-size: 16px;
+  padding: 2px 7px;
+  margin: 5px 0;
 }

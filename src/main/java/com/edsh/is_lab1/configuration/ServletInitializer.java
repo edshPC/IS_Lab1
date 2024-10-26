@@ -1,5 +1,6 @@
-package com.edsh.is_lab1;
+package com.edsh.is_lab1.configuration;
 
+import com.edsh.is_lab1.IsLab1Application;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

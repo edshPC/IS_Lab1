@@ -1,25 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import LoginAppMain from "./login/LoginMain";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="container" id="header">
+        <p>Лабораторная работа #1 по ИС</p>
+        <p>Выполнил Щербинин Эдуард P3314</p>
+        <p>Вариант 130343</p>
       </header>
+      <LoginAppMain/>
     </div>
   );
 }
 
-export default App;
