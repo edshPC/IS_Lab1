@@ -1,15 +1,27 @@
 import './App.css';
-import LoginAppMain from "./login/LoginMain";
+import LoginAppMain, {fetchLoggedAs} from "./login/LoginMain";
+import {createBrowserRouter, Link, Outlet, RouterProvider} from "react-router-dom";
+import MainPage from "./main/MainPage";
+import Header from "./main/Header";
 
 export default function App() {
+
+    const router = createBrowserRouter([{
+        path: "/",
+        element: <Header/>,
+        loader: fetchLoggedAs,
+        children: [{
+            index: true,
+            element: <MainPage/>
+        }, {
+            path: "login",
+            element: <LoginAppMain/>,
+        }]
+    }]);
+
   return (
     <div className="App">
-      <header className="container" id="header">
-        <p>Лабораторная работа #1 по ИС</p>
-        <p>Выполнил Щербинин Эдуард P3314</p>
-        <p>Вариант 130343</p>
-      </header>
-      <LoginAppMain/>
+        <RouterProvider router={router}/>
     </div>
   );
 }

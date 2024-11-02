@@ -81,10 +81,19 @@ button:active {
   border-radius: 0.4em;
 }
 
+.full {
+  width: 100%;
+}
+
 #header {
   font-family: cursive;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
   color: #d5dfe8;
-  font-size: 16px;
+  font-size: 15px;
+  width: auto;
 }
 
 #graph, .calculator {
@@ -125,10 +134,10 @@ button:active {
   border: 2px solid #8c2121;
   border-radius: 0.4em;
 }
-.small-button.selected, #result-table .last-row-hit td {
+.small-button.selected, .success {
   background-color: #43735d;
 }
-#result-table .last-row-miss td {
+.error {
   background-color: #653b3b;
 }
 
