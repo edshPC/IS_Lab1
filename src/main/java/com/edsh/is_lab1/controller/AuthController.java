@@ -22,27 +22,21 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@RequestBody AuthRequest authRequest) {
         var user = userService.login(authRequest);
         var token = userAuthProvider.createToken(authRequest.getLogin());
-        return ResponseEntity.ok(AuthResponse.builder()
-                .token(token)
-                .logged_as(user.getLogin())
-                .build());
+        return new AuthResponse(token, user.getLogin()).asResponseEntity();
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody AuthRequest authRequest) {
         var user = userService.register(authRequest);
         var token = userAuthProvider.createToken(authRequest.getLogin());
-        return ResponseEntity.ok(AuthResponse.builder()
-                .token(token)
-                .logged_as(user.getLogin())
-                .build());
+        return new AuthResponse(token, user.getLogin()).asResponseEntity();
     }
 
     @GetMapping("/check_auth")
     public ResponseEntity<?> checkAuth(@AuthenticationPrincipal User user) {
-        var builder = AuthResponse.builder();
-        if (user != null) builder.logged_as(user.getLogin());
-        return ResponseEntity.ok(builder.build());
+        var response = new AuthResponse();
+        if (user != null) response.setLogged_as(user.getLogin());
+        return response.asResponseEntity();
     }
 
 }

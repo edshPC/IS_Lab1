@@ -39,5 +39,5 @@ export default function LoginAppMain(props) {
 }
 
 export async function fetchLoggedAs() {
-    return (await silentRequest("api/public/check_auth")).logged_as;
+    return (await silentRequest("api/public/check_auth"))?.logged_as || null;
 }

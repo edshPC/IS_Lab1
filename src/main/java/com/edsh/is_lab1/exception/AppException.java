@@ -12,4 +12,9 @@ public class AppException extends RuntimeException {
         super(message);
         this.status = status;
     }
+
+    public AppException(String message) {
+        this(message, HttpStatus.BAD_REQUEST);
+    }
+
 }

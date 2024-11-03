@@ -1,6 +1,18 @@
 package com.edsh.is_lab1.model;
 
+import jakarta.validation.constraints.DecimalMin;
+import lombok.Data;
+
+import jakarta.persistence.*;
+
+@Data
+@Entity
+@Table(name = "IS_DragonCave")
 public class DragonCave {
-    private Double depth; //Поле может быть null
-    private double numberOfTreasures; //Значение поля должно быть больше 0
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Double depth; // Поле может быть null
+    @DecimalMin(value = "0.01", message = "Количество сокровищ должно быть больше 0")
+    private double numberOfTreasures; // Значение поля должно быть больше 0
 }

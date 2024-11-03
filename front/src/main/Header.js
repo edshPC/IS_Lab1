@@ -16,10 +16,12 @@ function Header() {
 
     return (<>
         <header className="container" id="header">
-            <div>
-                <p>Лабораторная работа #1 по ИС, Вариант 130343</p>
-                <p>Выполнил Щербинин Эдуард P3314</p>
-            </div>
+            <Link to={"/"}>
+                <div>
+                    <p>Лабораторная работа #1 по ИС, Вариант 130343</p>
+                    <p>Выполнил Щербинин Эдуард P3314</p>
+                </div>
+            </Link>
             <div>
                 {logged_as ? <>
                     <p>Привет, {logged_as}</p>
@@ -32,8 +34,10 @@ function Header() {
                 </>}
             </div>
         </header>
-        <Outlet/>
-        {error ? <div className="container error">Error: {error}</div> : <></>}
+        <div className="content">
+            <Outlet/>
+            {error ? <div className="container error box padding">Error: {error}</div> : <></>}
+        </div>
     </>);
 }
 

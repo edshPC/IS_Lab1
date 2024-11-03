@@ -1,6 +1,7 @@
 package com.edsh.is_lab1.configuration;
 
 import com.edsh.is_lab1.dto.AuthResponse;
+import com.edsh.is_lab1.dto.SimpleResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +26,7 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        OBJECT_MAPPER.writeValue(response.getOutputStream(), AuthResponse.builder()
-                .message("Unauthorized: " + authException.getMessage())
-                .success(false)
-                .build());
+        OBJECT_MAPPER.writeValue(response.getOutputStream(),
+                new SimpleResponse("Unauthorized: " + authException.getMessage(), false));
     }
 }

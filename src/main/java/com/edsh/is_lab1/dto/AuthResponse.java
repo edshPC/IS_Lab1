@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
-    private String message;
+public class AuthResponse extends BaseResponse<AuthResponse> {
     private String token;
     private String logged_as;
-    @Builder.Default
-    private boolean success = true;
 }

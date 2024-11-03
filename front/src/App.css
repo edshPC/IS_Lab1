@@ -27,6 +27,13 @@ body {
   border-radius: 0.2em;
 }
 
+.content {
+  height: fit-content;
+  width: fit-content;
+  box-sizing: border-box;
+
+}
+
 .container {
   background-color: #161b22;
   border: 1px solid darkgray;
@@ -37,7 +44,7 @@ body {
   border-radius: 0.6em;
 }
 
-#main-table {
+table {
   vertical-align: top;
   display: table;
   height: fit-content;
@@ -59,8 +66,12 @@ button:hover, #y-select:focus {
 button, .box, #result-table tr td {
   color: #c9d1d9;
   background-color: #21262d;
-  padding: 2px;
+  padding: 2px 5px;
   border: 2px solid rgba(240, 246, 252, 0.1);
+}
+
+.padding {
+  padding: 5px 10px;
 }
 
 button {
@@ -75,6 +86,11 @@ button {
 
 button:active {
   background-color: #6b6e39;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .rounded {
