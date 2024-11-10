@@ -29,7 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.setContext(ctx);
             } catch (RuntimeException e) {
                 SecurityContextHolder.clearContext();
-                throw e;
+                //throw e;
             }
         }
         filterChain.doFilter(request, response);

@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+const to_store = ["token"];
+
 const initialState = {
     token: null,
     logged_as: null,
+    data: [],
+    current_dragon: null,
 };
 
 const reducer = (state = initialState, {type, payload}) => {
@@ -20,11 +24,24 @@ const reducer = (state = initialState, {type, payload}) => {
     }
 };
 
+export function updateState(payload) {
+    return {type: 'SET', payload: payload}
+}
+
 const store = configureStore({
     reducer,
     preloadedState: JSON.parse(localStorage.getItem('state')) || undefined
 });
 
-store.subscribe(() => localStorage.setItem('state', JSON.stringify(store.getState())));
+store.subscribe(() => {
+    const state = store.getState();
+    const filteredState = {};
+    to_store.forEach(key => {
+        if (state[key] !== undefined) {
+            filteredState[key] = state[key];
+        }
+    });
+    localStorage.setItem('state', JSON.stringify(filteredState));
+});
 
 export default store;

@@ -1,5 +1,6 @@
 package com.edsh.is_lab1.model;
 
+import com.edsh.is_lab1.entity.User;
 import lombok.Data;
 
 import jakarta.persistence.*;
@@ -19,13 +20,13 @@ public class Dragon {
     @NotBlank(message = "Строка имени не может быть пустой")
     private String name; // Поле не может быть null, Строка не может быть пустой
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Coordinates coordinates; // Поле не может быть null
     @NotNull
     @Column(updatable = false)
-    private LocalDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private LocalDateTime creationDate = LocalDateTime.now(); // Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private DragonCave cave; // Поле не может быть null
     @ManyToOne(cascade = CascadeType.ALL)
     private Person killer; // Поле может быть null
@@ -39,4 +40,21 @@ public class Dragon {
     private DragonCharacter character; // Поле не может быть null
     @ManyToOne(cascade = CascadeType.ALL)
     private DragonHead head; // Поле может быть null
+
+    @ManyToOne
+    private User creator;
+
+    public void applyDataFrom(Dragon dragon) {
+        name = dragon.name;
+        coordinates = dragon.coordinates;
+        creationDate = dragon.creationDate;
+        cave = dragon.cave;
+        killer = dragon.killer;
+        age = dragon.age;
+        color = dragon.color;
+        type = dragon.type;
+        character = dragon.character;
+        head = dragon.head;
+    }
+
 }

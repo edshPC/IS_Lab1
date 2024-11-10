@@ -41,6 +41,7 @@ body {
   margin: 5px 7px;
   height: fit-content;
   width: fit-content;
+  max-width: 100%;
   border-radius: 0.6em;
 }
 
@@ -63,7 +64,7 @@ button:hover, #y-select:focus {
   border-color: #8b949e;
 }
 
-button, .box, #result-table tr td {
+button, .box, .table .rdt_TableRow, .table .rdt_TableHeadRow, .table .rdt_Pagination {
   color: #c9d1d9;
   background-color: #21262d;
   padding: 2px 5px;
@@ -74,8 +75,18 @@ button, .box, #result-table tr td {
   padding: 5px 10px;
 }
 
+.margin {
+  margin: 0 10px;
+}
+
+.justify {
+  justify-content: space-between;
+  display: flex;
+}
+
 button {
   cursor: pointer;
+  /*margin: 0 5px;*/
 }
 
 .small-button {
@@ -112,39 +123,35 @@ a {
   width: auto;
 }
 
-#graph, .calculator {
-  width: 400px;
-  height: 400px;
-  padding: 0;
-  margin: 10px;
-}
-#graph-container {
-  padding: 0;
-  border-radius: 0.2em;
-}
-
 #y-select {
   margin: 0 2px;
   width: 79px;
   height: 30px;
 }
 
-#result-table {
+.table .rdt_Table {
   display: block;
-  width: fit-content;
+  /*max-width: 400px;*/
   max-height: 400px;
-  overflow-y: scroll;
+  overflow: scroll;
+  background-color: transparent;
+  text-align: center;
 }
-
-#result-table tr td {
-  margin: 10px;
-  padding: 0 10px;
-  width: fit-content;
-  border-radius: 0.2em;
+.table .rdt_TableRow {
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 1.2em;
+  horiz-align: center;
+  min-height: 30px;
 }
-#result-table #first-row td {
+.table .rdt_TableHeadRow, .table .rdt_Pagination {
   background-color: #3a424f;
+  border-radius: 1.2em;
+  padding: 0 10px;
+  min-height: 40px;
+  font-size: 15px;
 }
+.table .rdt_TableCell {}
 
 .red-border {
   border: 2px solid #8c2121;

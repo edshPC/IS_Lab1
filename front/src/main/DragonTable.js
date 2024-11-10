@@ -1,8 +1,39 @@
-import DataTable from 'react-data-table-component';
+import Table from "./Table";
+import {useDispatch} from "react-redux";
+import {Link} from 'react-router-dom';
+import {useRequest} from "../Util";
+import store, {updateState} from "../store";
+
+function DragonAction({dragon}) {
+    const dispatch = useDispatch();
+    const request = useRequest();
+
+    const handleChange = e => {
+        dispatch(updateState({current_dragon: dragon}));
+    };
+
+    const handleRemove = e => {
+        request("api/remove_dragon", "POST", dragon)
+            .then(r => {
+                console.log(r);
+                let data = store.getState().data
+                    .filter(d => d.id !== dragon.id);
+                dispatch(updateState({data}));
+            }).catch(console.error);
+    };
+
+    return <div>
+        <Link to="/edit">
+            <button className="rounded full" onClick={handleChange}>Изменить</button>
+        </Link>
+        <button className="rounded full" onClick={handleRemove}>Удалить</button>
+    </div>
+}
 
 export default function DragonTable(props) {
 
     const columns = [
+        { cell: row => <DragonAction dragon={row} /> },
         { name: 'Name', selector: row => row.name },
         { name: 'X', selector: row => row.coordinates.x },
         { name: 'Y', selector: row => row.coordinates.y },
@@ -28,5 +59,10 @@ export default function DragonTable(props) {
         { name: 'Location Name', selector: row => row.killer?.location?.name || 'N/A' },
     ];
 
-    return <DataTable columns={columns} data={props.data} />;
+    return <Table
+        columns={columns}
+        data={props.data}
+        pagination
+        fixedHeader
+    />;
 }

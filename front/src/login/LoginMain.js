@@ -1,28 +1,30 @@
 import LoginApp from "./LoginApp";
-import {useState} from "react";
-import {Navigate} from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import {silentRequest, useRequest} from "../Util";
 import {useDispatch, useSelector} from "react-redux";
+import {updateState} from "../store";
 
 export default function LoginAppMain(props) {
-    const [redirect, redirectTo] = useState();
+    const navigate = useNavigate();
+    const logged_as = useSelector(state => state.logged_as);
+
+    useEffect(() => {
+        if (logged_as) navigate("/");
+    }, [logged_as, navigate]);
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const logged_as = useSelector(state => state.logged_as);
     const request = useRequest();
-    if (!redirect && logged_as) redirectTo("/");
 
     const auth = (type) => {
         if (!login || !password) return;
         request("api/public/" + type, "POST", {login, password})
             .then(r => {
-                dispatch({
-                    type: "SET", payload: {
-                        token: r.token, logged_as: r.logged_as
-                    }
-                });
+                dispatch(updateState({
+                    token: r.token, logged_as: r.logged_as
+                }));
             }).catch(console.error);
     }
 
@@ -32,8 +34,6 @@ export default function LoginAppMain(props) {
         loginHandle: () => auth("login"),
         registerHandle: () => auth("register"),
     };
-
-    if (redirect) return <Navigate to={redirect}/>;
 
     return <LoginApp fetcher={fetcher}/>;
 }

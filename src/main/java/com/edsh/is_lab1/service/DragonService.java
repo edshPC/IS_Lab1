@@ -27,4 +27,16 @@ public class DragonService {
         dragonRepository.save(dragon);
     }
 
+    public void updateDragon(Dragon dragon) {
+        var existing = getDragonById(dragon.getId());
+        existing.applyDataFrom(dragon);
+        dragonRepository.save(existing);
+    }
+
+    public void removeDragon(Dragon dragon) {
+        if (!dragonRepository.existsById(dragon.getId()))
+            throw new AppException("No dragon with id " + dragon.getId(), HttpStatus.NOT_FOUND);
+        dragonRepository.deleteById(dragon.getId());
+    }
+
 }

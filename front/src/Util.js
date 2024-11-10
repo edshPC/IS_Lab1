@@ -1,5 +1,6 @@
-import store from "./store";
-import {useDispatch} from "react-redux";
+import store, {updateState} from "./store";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const origin = "http://localhost:8080/";
 
@@ -32,6 +33,18 @@ export function useRequest() {
             throw err;
         }
     }
+}
+
+export function useAuthorizationCheck() {
+    const logged_as = useSelector(state => state.logged_as);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    return () => {
+        if (!logged_as) {
+            dispatch({type: 'ERROR', payload: 'Нужно авторизоваться, чтобы получить доступ к этой странице'});
+            navigate("/");
+        }
+    };
 }
 
 export async function silentRequest(...args) {

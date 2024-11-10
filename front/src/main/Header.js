@@ -2,6 +2,7 @@ import {Link, Outlet} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {fetchLoggedAs} from "../login/LoginMain";
+import {updateState} from "../store";
 
 function Header() {
     const dispatch = useDispatch();
@@ -9,7 +10,7 @@ function Header() {
     const logged_as = useSelector(state => state.logged_as);
 
     useEffect(() => {
-        fetchLoggedAs().then(logged_as => dispatch({type: 'SET', payload: {logged_as}}));
+        fetchLoggedAs().then(logged_as => dispatch(updateState({logged_as})));
     }, [dispatch]);
 
     const logout = () => dispatch({type: "CLEAR_AUTH"});
@@ -36,7 +37,9 @@ function Header() {
         </header>
         <div className="content">
             <Outlet/>
-            {error ? <div className="container error box padding">Error: {error}</div> : <></>}
+            {error ? <div className="container error box padding">
+                Error: {error}
+            </div> : <></>}
         </div>
     </>);
 }
