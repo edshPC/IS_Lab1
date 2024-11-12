@@ -25,18 +25,20 @@ public class ObjectController {
 
     @PostMapping("/add_dragon")
     public ResponseEntity<?> add(@RequestBody @Valid Dragon dragon, @AuthenticationPrincipal User user) {
-        dragonService.addDragon(dragon);
+        dragonService.addDragon(dragon, user);
         return SimpleResponse.success();
     }
 
     @PostMapping("/update_dragon")
     public ResponseEntity<?> update(@RequestBody @Valid Dragon dragon, @AuthenticationPrincipal User user) {
+        dragonService.checkDragonOwner(dragon, user);
         dragonService.updateDragon(dragon);
         return SimpleResponse.success();
     }
 
     @PostMapping("/remove_dragon")
     public ResponseEntity<?> remove(@RequestBody Dragon dragon, @AuthenticationPrincipal User user) {
+        dragonService.checkDragonOwner(dragon, user);
         dragonService.removeDragon(dragon);
         return SimpleResponse.success();
     }

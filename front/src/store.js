@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-const to_store = ["token"];
+const to_store = ["token", "logged_as"];
 
 const initialState = {
     token: null,
@@ -30,7 +30,7 @@ export function updateState(payload) {
 
 const store = configureStore({
     reducer,
-    preloadedState: JSON.parse(localStorage.getItem('state')) || undefined
+    preloadedState: {...initialState, ...(JSON.parse(localStorage.getItem('state')) || {})},
 });
 
 store.subscribe(() => {

@@ -59,7 +59,7 @@ table {
   display: table-cell;
 }
 
-button:hover, #y-select:focus {
+button:hover, .input:focus {
   background-color: #30363d;
   border-color: #8b949e;
 }
@@ -123,10 +123,10 @@ a {
   width: auto;
 }
 
-#y-select {
+.input {
   margin: 0 2px;
-  width: 79px;
-  height: 30px;
+  width: 120px;
+  height: 25px;
 }
 
 .table .rdt_Table {
@@ -143,7 +143,12 @@ a {
   border-radius: 1.2em;
   horiz-align: center;
   min-height: 30px;
+  text-align: center;
 }
+/*.table .rdt_TableCell {*/
+/*  text-align: center;*/
+/*  padding: 0 5px;*/
+/*}*/
 .table .rdt_TableHeadRow, .table .rdt_Pagination {
   background-color: #3a424f;
   border-radius: 1.2em;
@@ -151,7 +156,6 @@ a {
   min-height: 40px;
   font-size: 15px;
 }
-.table .rdt_TableCell {}
 
 .red-border {
   border: 2px solid #8c2121;

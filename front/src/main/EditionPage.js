@@ -1,4 +1,4 @@
-import DragonForm from "./DragonForm";
+import DragonForm from "../component/DragonForm";
 import {useEffect, useState} from "react";
 import store, {updateState} from "../store";
 import {useNavigate} from "react-router-dom";
@@ -11,7 +11,7 @@ export default function EditionPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const current_dragon = useSelector(state => state.current_dragon);
-    const [dragon, setDragon] = useState(current_dragon);
+    const [dragon, setDragon] = useState(JSON.parse(JSON.stringify(current_dragon)));
     const request = useRequest();
 
     useEffect(() => {

@@ -38,7 +38,7 @@ function Header() {
         <div className="content">
             <Outlet/>
             {error ? <div className="container error box padding">
-                Error: {error}
+                {error}
             </div> : <></>}
         </div>
     </>);

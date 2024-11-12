@@ -5,12 +5,14 @@ import lombok.Data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "IS_Dragon")
+@Repository
 public class Dragon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +44,7 @@ public class Dragon {
     private DragonHead head; // Поле может быть null
 
     @ManyToOne
-    private User creator;
+    private User owner;
 
     public void applyDataFrom(Dragon dragon) {
         name = dragon.name;

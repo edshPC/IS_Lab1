@@ -1,4 +1,4 @@
-import DragonForm from "./DragonForm";
+import DragonForm from "../component/DragonForm";
 import {useEffect, useState} from "react";
 import {useAuthorizationCheck, useRequest} from "../Util";
 import {useNavigate} from "react-router-dom";
@@ -11,14 +11,25 @@ export default function CreationPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [dragon, setDragon] = useState({
-        coordinates: {},
-        cave: {},
-        color: 'RED',
-        character: 'CUNNING',
-        head: {},
+        id: null,
+        name: null,
+        coordinates: { id: null, x: null, y: null },
+        cave: { id: null, depth: null, numberOfTreasures: null },
+        age: null,
+        color: null,
+        type: null,
+        character: null,
+        head: { id: null, size: null, eyesCount: null, toothCount: null },
         killer: {
-            eyeColor: 'BLUE',
-            location: {},
+            id: null,
+            name: null,
+            eyeColor: null,
+            hairColor: null,
+            location: { id: null, x: null, y: null, name: null },
+            height: null,
+            weight: null,
+            passportID: null,
+            nationality: null
         }
     });
 
