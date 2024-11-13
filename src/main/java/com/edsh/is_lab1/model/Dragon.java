@@ -22,15 +22,15 @@ public class Dragon {
     @NotBlank(message = "Строка имени не может быть пустой")
     private String name; // Поле не может быть null, Строка не может быть пустой
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, optional = false)
     private Coordinates coordinates; // Поле не может быть null
     @NotNull
     @Column(updatable = false)
     private LocalDateTime creationDate = LocalDateTime.now(); // Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, optional = false)
     private DragonCave cave; // Поле не может быть null
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Person killer; // Поле может быть null
     @NotNull
     @Min(value = 1, message = "Возраст должен быть больше 0")
@@ -40,7 +40,7 @@ public class Dragon {
     private DragonType type; // Поле может быть null
     @NotNull
     private DragonCharacter character; // Поле не может быть null
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private DragonHead head; // Поле может быть null
 
     @ManyToOne

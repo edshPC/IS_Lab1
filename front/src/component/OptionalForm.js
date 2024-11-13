@@ -7,12 +7,12 @@ export default function OptionalComponent({children, values = [], setId, name}) 
         return acc; // Возвращаем аккумулятор для следующей итерации
     }, {});
     const [isChecked, setIsChecked] = useState(false);
-    const [value, setValue] = useState({});
+    const [value, setValue] = useState(values[0] || {});
 
     const handleCheckboxChange = () => {
         let willChecked = !isChecked && values.length > 0;
         setIsChecked(willChecked);
-        setId(willChecked ? null : value.id);
+        setId(willChecked ? value.id : null);
     };
     let choose_element = null;
     if (isChecked) {

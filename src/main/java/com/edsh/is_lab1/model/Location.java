@@ -1,9 +1,12 @@
 package com.edsh.is_lab1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 @Data
 @Entity

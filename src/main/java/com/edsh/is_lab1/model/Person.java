@@ -1,8 +1,11 @@
 package com.edsh.is_lab1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "IS_Person")
@@ -17,7 +20,7 @@ public class Person {
     @NotNull
     private Color eyeColor; //Поле не может быть null
     private Color hairColor; //Поле может быть null
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Location location; //Поле не может быть null
     @NotNull
     @Min(value = 1, message = "Рост быть больше 0")
@@ -28,5 +31,4 @@ public class Person {
     @NotNull
     private String passportID; //Длина строки должна быть не меньше 10, Поле не может быть null
     private Country nationality; //Поле может быть null
-
 }
