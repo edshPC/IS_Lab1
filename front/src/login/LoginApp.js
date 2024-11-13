@@ -2,7 +2,7 @@ export default function LoginApp(props) {
     const fetcher = props.fetcher;
     return (
         <div className="container">
-            <table id="input-table">
+            <table>
                 <tbody>
                 <tr>
                     <td colSpan="3" className="input-cell-l">Войди или зарегистрируйся:</td>
@@ -34,7 +34,6 @@ export default function LoginApp(props) {
                 </tr>
                 </tbody>
             </table>
-
         </div>
     );
 }

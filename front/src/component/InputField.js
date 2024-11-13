@@ -21,20 +21,20 @@ export default function InputField({type, object, name, onChange, values = [], c
 
     if (type === Type.Integer) {
         type = Type.Number;
-        valid &= isInt(value);
+        valid &= isInt(value) || value === null;
     }
-    valid |= value === null;
+    //valid |= value === undefined;
     if (type === Type.Enum) {
         element = <select className="input box rounded" name={name}
                           value={value || ''} onChange={onChange}>
-            <option value={null} key={-1}>Select option</option>
+            <option value={''} key={-1}>Select option</option>
             {values.map((item, i) => <option value={item} key={i}>{item}</option>)}
         </select>;
     } else {
         element = <input className="input box rounded" type={type} name={name}
                          value={value || ''} onChange={onChange}/>;
     }
-    return <div className={valid ? "" : "red-border"}>
+    return <div className={"form-input " + (valid ? "" : "red-border")}>
         <label>{customName || name.replaceAll('.', ' ')}: </label>
         {element}
     </div>

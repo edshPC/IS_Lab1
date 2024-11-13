@@ -12,7 +12,8 @@ export default function DragonForm({dragon, setDragon, onSubmit}) {
     const data = useSelector(state => state.data) || [];
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        let {name, value} = e.target;
+        if (value === '') value = null;
         const keys = name.split('.');
         setDragon(prevDragon => {
             let updatedDragon = {...prevDragon};
@@ -37,21 +38,10 @@ export default function DragonForm({dragon, setDragon, onSubmit}) {
 
     return (
         <div className="container">
+            <p><b>Укажите аттрибуты</b></p>
+            <div className="form">
             <InputField type={Type.String} name="name" object={dragon} onChange={handleChange}
                         check={e => e && e.length > 0}/>
-            <label>Укажите координаты:</label>
-            <OptionalComponent values={data.map(d => d.coordinates)} setId={getHandler("coordinates")}>
-                <InputField type={Type.Integer} name="coordinates.x" object={dragon} onChange={handleChange}
-                            check={e => e && e <= 235}/>
-                <InputField type={Type.Integer} name="coordinates.y" object={dragon} onChange={handleChange}
-                            check={e => e && e <= 811}/>
-            </OptionalComponent>
-            <OptionalComponent values={data.map(d => d.cave)} setId={getHandler("cave")}>
-                <InputField type={Type.Number} name="cave.depth" object={dragon} onChange={handleChange}
-                            check={e => e > 0}/>
-                <InputField type={Type.Number} name="cave.numberOfTreasures" object={dragon} onChange={handleChange}
-                            check={e => e > 0}/>
-            </OptionalComponent>
             <InputField type={Type.Integer} name="age" object={dragon} onChange={handleChange}
                         check={e => e > 0}/>
             <InputField type={Type.Enum} name="color" object={dragon} onChange={handleChange}
@@ -60,13 +50,29 @@ export default function DragonForm({dragon, setDragon, onSubmit}) {
                         values={DRAGON_TYPE_VALUES}/>
             <InputField type={Type.Enum} name="character" object={dragon} onChange={handleChange}
                         values={DRAGON_CHARACTER_VALUES} check={e => Boolean(e)}/>
-            <OptionalComponent values={data.map(d => d.head)} setId={getHandler("head")}>
+            <OptionalComponent name="координаты"
+                values={data.map(d => d.coordinates)} setId={getHandler("coordinates")}>
+                <InputField type={Type.Integer} name="coordinates.x" object={dragon} onChange={handleChange}
+                            check={e => e && e <= 235}/>
+                <InputField type={Type.Integer} name="coordinates.y" object={dragon} onChange={handleChange}
+                            check={e => e && e <= 811}/>
+            </OptionalComponent>
+            <OptionalComponent name="перещу"
+                               values={data.map(d => d.cave)} setId={getHandler("cave")}>
+                <InputField type={Type.Number} name="cave.depth" object={dragon} onChange={handleChange}
+                            check={e => e > 0}/>
+                <InputField type={Type.Number} name="cave.numberOfTreasures" object={dragon} onChange={handleChange}
+                            check={e => e > 0}/>
+            </OptionalComponent>
+            <OptionalComponent name="голову"
+                               values={data.map(d => d.head)} setId={getHandler("head")}>
                 <InputField type={Type.Integer} name="head.size" object={dragon} onChange={handleChange}/>
                 <InputField type={Type.Number} name="head.eyesCount" object={dragon} onChange={handleChange}
                             check={e => e}/>
                 <InputField type={Type.Number} name="head.toothCount" object={dragon} onChange={handleChange}/>
             </OptionalComponent>
-            <OptionalComponent values={data.map(d => d.killer)} setId={getHandler("killer")}>
+            <OptionalComponent name="убийцу"
+                               values={data.map(d => d.killer)} setId={getHandler("killer")}>
                 <InputField type={Type.String} name="killer.name" object={dragon} onChange={handleChange}
                             check={e => e && e.length > 0}/>
                 <InputField type={Type.Enum} name="killer.eyeColor" object={dragon} onChange={handleChange}
@@ -81,7 +87,8 @@ export default function DragonForm({dragon, setDragon, onSubmit}) {
                             check={e => e && e.length >= 10}/>
                 <InputField type={Type.Enum} name="killer.nationality" object={dragon} onChange={handleChange}
                             values={COUNTRY_VALUES}/>
-                <OptionalComponent values={data.map(d => d.killer.location)} setId={getHandler("killer.location")}>
+                <OptionalComponent name="локацию"
+                                   values={data.map(d => d.killer.location)} setId={getHandler("killer.location")}>
                     <InputField type={Type.Number} name="killer.location.x" object={dragon} onChange={handleChange}/>
                     <InputField type={Type.Integer} name="killer.location.y" object={dragon} onChange={handleChange}/>
                     <InputField type={Type.Number} name="killer.location.z" object={dragon} onChange={handleChange}/>
@@ -92,6 +99,8 @@ export default function DragonForm({dragon, setDragon, onSubmit}) {
             <div className="justify">
                 <button onClick={onSubmit} className="rounded full">Отправить</button>
                 <button onClick={onGenerate} className="rounded margin">Сгенерировать</button>
+            </div>
+
             </div>
         </div>
     );

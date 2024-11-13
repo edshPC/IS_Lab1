@@ -43,6 +43,7 @@ body {
   width: fit-content;
   max-width: 100%;
   border-radius: 0.6em;
+  text-align: left;
 }
 
 table {
@@ -52,11 +53,6 @@ table {
   width: fit-content;
   padding: 0;
   margin: 0;
-}
-
-#main-table .row-like .cell-like {
-  vertical-align: top;
-  display: table-cell;
 }
 
 button:hover, .input:focus {
@@ -79,6 +75,10 @@ button, .box, .table .rdt_TableRow, .table .rdt_TableHeadRow, .table .rdt_Pagina
   margin: 0 10px;
 }
 
+.flex {
+  display: flex;
+}
+
 .justify {
   justify-content: space-between;
   display: flex;
@@ -90,8 +90,8 @@ button {
 }
 
 .small-button {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   position: relative;
 }
 
@@ -124,16 +124,31 @@ a {
 }
 
 .input {
-  margin: 0 2px;
-  width: 120px;
+  margin: 1px 2px;
+  width: 125px;
   height: 25px;
+}
+
+.form-input {
+  width: fit-content;
+  padding: 2px 5px;
+}
+
+label {
+  margin-bottom: 3px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }
 
 .table .rdt_Table {
   display: block;
   /*max-width: 400px;*/
   max-height: 400px;
-  overflow: scroll;
+  overflow-y: scroll;
   background-color: transparent;
   text-align: center;
 }
