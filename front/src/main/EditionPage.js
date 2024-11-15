@@ -28,5 +28,5 @@ export default function EditionPage() {
             }).catch(console.error);
     }
 
-    return <DragonForm dragon={dragon} setDragon={setDragon} onSubmit={onSubmit}/>
+    return <DragonForm dragon={dragon} setDragon={setDragon} onSubmit={onSubmit} subSelected />
 }

@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ButtonCheckbox from "./ButtonCheckbox";
 
-export default function OptionalComponent({children, values = [], setId, name}) {
+export default function OptionalComponent({children, values = [], setId, name, initial}) {
     const mapped = values.reduce((acc, item) => {
         acc[item.id] = item; // Устанавливаем id как ключ, а остальные поля как значение
         return acc; // Возвращаем аккумулятор для следующей итерации
     }, {});
-    const [isChecked, setIsChecked] = useState(false);
-    const [value, setValue] = useState(values[0] || {});
+    const [isChecked, setIsChecked] = useState(!!initial);
+    const [value, setValue] = useState(initial || values[0] || {});
 
+    useEffect(() => setId(isChecked ? value.id : null), []);
     const handleCheckboxChange = () => {
         let willChecked = !isChecked && values.length > 0;
         setIsChecked(willChecked);

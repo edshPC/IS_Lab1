@@ -72,7 +72,7 @@ button, .box, .table .rdt_TableRow, .table .rdt_TableHeadRow, .table .rdt_Pagina
 }
 
 .margin {
-  margin: 0 10px;
+  margin: 5px 10px;
 }
 
 .flex {
@@ -184,8 +184,11 @@ label {
   background-color: #653b3b;
 }
 
-.redirect {
-  font-size: 16px;
-  padding: 2px 7px;
-  margin: 5px 0;
+.notification {
+  position: fixed; /* Фиксированное позиционирование */
+  top: 5px; /* Привязываем к верхней части экрана */
+  left: 50%; /* Центрируем по горизонтали */
+  transform: translateX(-50%); /* Центрируем элемент */
+  z-index: 1000; /* Устанавливаем высокий z-index, чтобы элемент был поверх остальных */
 }
+

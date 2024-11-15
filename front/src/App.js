@@ -5,6 +5,7 @@ import MainPage from "./main/MainPage";
 import Header from "./main/Header";
 import CreationPage from "./main/CreationPage";
 import EditionPage from "./main/EditionPage";
+import SpecialPage from "./main/SpecialPage";
 
 export default function App() {
 
@@ -23,6 +24,9 @@ export default function App() {
         }, {
             path: "edit",
             element: <EditionPage/>
+        }, {
+            path: "special",
+            element: <SpecialPage/>
         }]
     }]);
 

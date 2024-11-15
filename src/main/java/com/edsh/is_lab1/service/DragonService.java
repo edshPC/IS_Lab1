@@ -2,13 +2,12 @@ package com.edsh.is_lab1.service;
 
 import com.edsh.is_lab1.entity.User;
 import com.edsh.is_lab1.exception.AppException;
-import com.edsh.is_lab1.model.Coordinates;
 import com.edsh.is_lab1.model.Dragon;
 import com.edsh.is_lab1.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +25,11 @@ public class DragonService {
         return dragonRepository.findAll();
     }
 
+    public void checkExistsDragon(Dragon dragon) {
+        if (!dragonRepository.existsById(dragon.getId()))
+            throw new AppException("No dragon with id " + dragon.getId());
+    }
+
     public Dragon getDragonById(Integer id) {
         return dragonRepository.findById(id)
                 .orElseThrow(() -> new AppException("No dragon with id " + id, HttpStatus.NOT_FOUND));
@@ -38,16 +42,19 @@ public class DragonService {
     }
 
     public void updateDragon(Dragon dragon) {
-        applyExistingFields(dragon);
         var existing = getDragonById(dragon.getId());
-        existing.applyDataFrom(dragon);
-        dragonRepository.save(existing);
+        applyExistingFields(dragon);
+        dragonRepository.save(dragon);
+        clearUnusedEntities(existing);
     }
 
     public void removeDragon(Dragon dragon) {
         dragon = getDragonById(dragon.getId());
         dragonRepository.delete(dragon);
+        clearUnusedEntities(dragon);
+    }
 
+    public void clearUnusedEntities(Dragon dragon) {
         if (dragonRepository.countByCoordinates(dragon.getCoordinates()) == 0) {
             coordinatesRepository.delete(dragon.getCoordinates());
         }
@@ -72,7 +79,8 @@ public class DragonService {
     public void applyExistingFields(Dragon dragon) {
         var id = dragon.getCoordinates().getId();
         if (id != null) dragon.setCoordinates(coordinatesRepository.findById(id).orElseThrow());
-        coordinatesRepository.findByXAndY(dragon.getCoordinates().getX(), dragon.getCoordinates().getY())
+        coordinatesRepository
+                .findByXAndY(dragon.getCoordinates().getX(), dragon.getCoordinates().getY())
                 .ifPresent(dragon::setCoordinates);
         id = dragon.getCave().getId();
         if (id != null) dragon.setCave(dragonCaveRepository.findById(id).orElseThrow());

@@ -15,10 +15,6 @@ const reducer = (state = initialState, {type, payload}) => {
             return { ...state, ...payload };
         case 'CLEAR_AUTH':
             return { ...state, token: null, logged_as: null };
-        case 'ERROR':
-            return { ...state, error: payload };
-        case 'CLEAR_ERROR':
-            return { ...state, error: null };
         default:
             return state;
     }

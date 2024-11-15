@@ -1,5 +1,6 @@
 package com.edsh.is_lab1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     private String login;
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Permission permission = Permission.ANY;

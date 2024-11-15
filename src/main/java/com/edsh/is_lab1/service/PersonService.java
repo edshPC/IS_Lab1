@@ -8,15 +8,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PersonService {
     private final LocationRepository locationRepository;
     private final PersonRepository personRepository;
 
+    public List<Person> getAllPeople() {
+        return personRepository.findAll();
+    }
+
     public Person getPersonById(Long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new AppException("No person with id " + id, HttpStatus.BAD_REQUEST));
+    }
+
+    public void addPerson(Person person) {
+        applyExistingFields(person);
+        personRepository.save(person);
     }
 
     public void removePerson(Person person) {

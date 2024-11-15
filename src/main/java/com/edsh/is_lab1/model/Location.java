@@ -1,17 +1,14 @@
 package com.edsh.is_lab1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
 @Data
 @Entity
 @Table(name = "IS_Location")
-public class Location {
+public class Location implements Appliable<Location> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,4 +17,12 @@ public class Location {
     private float z;
     @Size(max = 401, message = "Длина строки не должна превышать 401 символ")
     private String name; // Поле может быть null
+
+    @Override
+    public void applyDataFrom(Location other) {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        name = other.name;
+    }
 }

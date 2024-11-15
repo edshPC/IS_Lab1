@@ -12,7 +12,11 @@ public class SimpleResponse extends BaseResponse<SimpleResponse> {
     }
 
     public static ResponseEntity<?> success() {
-        return new SimpleResponse().asResponseEntity();
+        return success(null);
+    }
+
+    public static ResponseEntity<?> success(String message) {
+        return new SimpleResponse(message, true).asResponseEntity();
     }
 
     public static ResponseEntity<?> error(String message) {

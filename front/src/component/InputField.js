@@ -21,7 +21,7 @@ export default function InputField({type, object, name, onChange, values = [], c
 
     if (type === Type.Integer) {
         type = Type.Number;
-        valid &= isInt(value) || value === null;
+        valid &= !value || isInt(value);
     }
     //valid |= value === undefined;
     if (type === Type.Enum) {
@@ -32,7 +32,7 @@ export default function InputField({type, object, name, onChange, values = [], c
         </select>;
     } else {
         element = <input className="input box rounded" type={type} name={name}
-                         value={value || ''} onChange={onChange}/>;
+                         value={value || ''} onChange={onChange} placeholder="-- null --"/>;
     }
     return <div className={"form-input " + (valid ? "" : "red-border")}>
         <label>{customName || name.replaceAll('.', ' ')}: </label>

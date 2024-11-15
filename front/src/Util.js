@@ -26,10 +26,11 @@ export function useRequest() {
     return async (...args) => {
         try {
             let res = await request(...args);
-            dispatch({type: 'CLEAR_ERROR'});
+            if(res.message)
+                dispatch(updateState({notification: {success: true, message: res.message}}));
             return res;
         } catch (err) {
-            dispatch({type: 'ERROR', payload: err.message});
+            dispatch(updateState({notification: {success: false, message: err.message}}));
             throw err;
         }
     }
@@ -41,7 +42,9 @@ export function useAuthorizationCheck() {
     const dispatch = useDispatch();
     return () => {
         if (!logged_as) {
-            dispatch({type: 'ERROR', payload: 'Нужно авторизоваться, чтобы получить доступ к этой странице'});
+            dispatch(updateState({notification:
+                    {success: false, message: "Нужно авторизоваться чтобы получить доступ к этой странице"}
+            }));
             navigate("/");
         }
     };

@@ -31,7 +31,10 @@ public class UserService {
 
     public User register(AuthRequest authRequest) {
         if (userRepository.findByLogin(authRequest.getLogin()).isPresent()) {
-            throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
+            throw new AppException("User already exists");
+        }
+        if (authRequest.getPassword().length() < 4) {
+            throw new AppException("Password must be at least 4 characters");
         }
         User user = authRequest.asUser(passwordEncoder);
         user.setPermission(User.Permission.USER);

@@ -29,5 +29,8 @@ export default function MainPage() {
         <Link to="/new">
             <button className="rounded">Создать новый</button>
         </Link>
+        <Link to="/special">
+            <button className="rounded margin">Спец операции</button>
+        </Link>
     </div>;
 }

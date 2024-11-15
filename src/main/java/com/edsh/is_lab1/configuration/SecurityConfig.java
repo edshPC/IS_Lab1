@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserAuthProvider userAuthProvider;
     private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
     private final JwtAuthFilter jwtAuthFilter;
 

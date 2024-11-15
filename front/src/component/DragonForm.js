@@ -1,15 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import InputField, {Type} from "./InputField";
 import OptionalComponent from "./OptionalForm";
 import {useSelector} from "react-redux";
+import KillerForm from "./KillerForm";
+import {useRequest} from "../Util";
 
-const COLOR_VALUES = ["GREEN", "RED", "BLUE", "YELLOW", "BROWN"];
-const COUNTRY_VALUES = ["RUSSIA", "USA", "CHINA", "ITALY", "JAPAN"];
-const DRAGON_TYPE_VALUES = ["WATER", "UNDERGROUND", "AIR", "FIRE"];
-const DRAGON_CHARACTER_VALUES = ["CUNNING", "WISE", "CHAOTIC"];
+export const COLOR_VALUES = ["GREEN", "RED", "BLUE", "YELLOW", "BROWN"];
+export const COUNTRY_VALUES = ["RUSSIA", "USA", "CHINA", "ITALY", "JAPAN"];
+export const DRAGON_TYPE_VALUES = ["WATER", "UNDERGROUND", "AIR", "FIRE"];
+export const DRAGON_CHARACTER_VALUES = ["CUNNING", "WISE", "CHAOTIC"];
 
-export default function DragonForm({dragon, setDragon, onSubmit}) {
+export default function DragonForm({dragon, setDragon, onSubmit, subSelected}) {
     const data = useSelector(state => state.data) || [];
+    const [killers, setKillers] = useState(data.map(d => d.killer));
+    const request = useRequest();
+    useEffect(() => {
+        request("api/get_all_killers")
+            .then(r => setKillers(r.data)).catch(console.error);
+    }, []);
 
     const handleChange = (e) => {
         let {name, value} = e.target;
@@ -50,51 +58,30 @@ export default function DragonForm({dragon, setDragon, onSubmit}) {
                         values={DRAGON_TYPE_VALUES}/>
             <InputField type={Type.Enum} name="character" object={dragon} onChange={handleChange}
                         values={DRAGON_CHARACTER_VALUES} check={e => Boolean(e)}/>
-            <OptionalComponent name="координаты"
+            <OptionalComponent name="координаты" initial={subSelected ? dragon.coordinates : null}
                 values={data.map(d => d.coordinates)} setId={getHandler("coordinates")}>
                 <InputField type={Type.Integer} name="coordinates.x" object={dragon} onChange={handleChange}
                             check={e => e && e <= 235}/>
                 <InputField type={Type.Integer} name="coordinates.y" object={dragon} onChange={handleChange}
                             check={e => e && e <= 811}/>
             </OptionalComponent>
-            <OptionalComponent name="перещу"
+            <OptionalComponent name="перещу" initial={subSelected ? dragon.cave : null}
                                values={data.map(d => d.cave)} setId={getHandler("cave")}>
                 <InputField type={Type.Number} name="cave.depth" object={dragon} onChange={handleChange}
                             check={e => e > 0}/>
                 <InputField type={Type.Number} name="cave.numberOfTreasures" object={dragon} onChange={handleChange}
                             check={e => e > 0}/>
             </OptionalComponent>
-            <OptionalComponent name="голову"
+            <OptionalComponent name="голову" initial={subSelected ? dragon.head : null}
                                values={data.map(d => d.head)} setId={getHandler("head")}>
                 <InputField type={Type.Integer} name="head.size" object={dragon} onChange={handleChange}/>
                 <InputField type={Type.Number} name="head.eyesCount" object={dragon} onChange={handleChange}
                             check={e => e}/>
                 <InputField type={Type.Number} name="head.toothCount" object={dragon} onChange={handleChange}/>
             </OptionalComponent>
-            <OptionalComponent name="убийцу"
-                               values={data.map(d => d.killer)} setId={getHandler("killer")}>
-                <InputField type={Type.String} name="killer.name" object={dragon} onChange={handleChange}
-                            check={e => e && e.length > 0}/>
-                <InputField type={Type.Enum} name="killer.eyeColor" object={dragon} onChange={handleChange}
-                            values={COLOR_VALUES} check={e => Boolean(e)}/>
-                <InputField type={Type.Enum} name="killer.hairColor" object={dragon} onChange={handleChange}
-                            values={COLOR_VALUES}/>
-                <InputField type={Type.Integer} name="killer.height" object={dragon} onChange={handleChange}
-                            check={e => e > 0}/>
-                <InputField type={Type.Number} name="killer.weight" object={dragon} onChange={handleChange}
-                            check={e => e > 0}/>
-                <InputField type={Type.String} name="killer.passportID" object={dragon} onChange={handleChange}
-                            check={e => e && e.length >= 10}/>
-                <InputField type={Type.Enum} name="killer.nationality" object={dragon} onChange={handleChange}
-                            values={COUNTRY_VALUES}/>
-                <OptionalComponent name="локацию"
-                                   values={data.map(d => d.killer.location)} setId={getHandler("killer.location")}>
-                    <InputField type={Type.Number} name="killer.location.x" object={dragon} onChange={handleChange}/>
-                    <InputField type={Type.Integer} name="killer.location.y" object={dragon} onChange={handleChange}/>
-                    <InputField type={Type.Number} name="killer.location.z" object={dragon} onChange={handleChange}/>
-                    <InputField type={Type.String} name="killer.location.name" object={dragon} onChange={handleChange}
-                                check={e => !e || e.length <= 401}/>
-                </OptionalComponent>
+            <OptionalComponent name="убийцу" initial={subSelected ? dragon.killer : null}
+                               values={killers} setId={getHandler("killer")}>
+                <KillerForm object={dragon} onChange={handleChange} subSelected={subSelected} />
             </OptionalComponent>
             <div className="justify">
                 <button onClick={onSubmit} className="rounded full">Отправить</button>

@@ -1,18 +1,15 @@
 package com.edsh.is_lab1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
-
 @Data
 @Entity
 @Table(name = "IS_Coordinates")
-public class Coordinates {
+public class Coordinates implements Appliable<Coordinates> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +19,10 @@ public class Coordinates {
     @NotNull
     @Max(value = 811, message = "Максимальное значение поля y: 811")
     private Long y; // Максимальное значение поля: 811, Поле не может быть null
+
+    @Override
+    public void applyDataFrom(Coordinates other) {
+        x = other.x;
+        y = other.y;
+    }
 }

@@ -3,10 +3,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {fetchLoggedAs} from "../login/LoginMain";
 import {updateState} from "../store";
+import Notification from "../component/Notification";
 
 function Header() {
     const dispatch = useDispatch();
-    const error = useSelector(state => state.error);
     const logged_as = useSelector(state => state.logged_as);
 
     useEffect(() => {
@@ -16,6 +16,7 @@ function Header() {
     const logout = () => dispatch({type: "CLEAR_AUTH"});
 
     return (<>
+        <Notification />
         <header className="container" id="header">
             <Link to={"/"}>
                 <div>
@@ -23,9 +24,11 @@ function Header() {
                     <p>Выполнил Щербинин Эдуард P3314</p>
                 </div>
             </Link>
+            {logged_as?.permission === 'ADMIN' ?
+                <button className="rounded">Админ панель</button> : null}
             <div>
                 {logged_as ? <>
-                    <p>Привет, {logged_as}</p>
+                    <p>Привет, {logged_as.login}</p>
                     <button className="rounded full" onClick={logout}>Выйти</button>
                 </> : <>
                     <p>Вы не авторизованы</p>
@@ -37,9 +40,6 @@ function Header() {
         </header>
         <div className="content">
             <Outlet/>
-            {error ? <div className="container error box padding">
-                {error}
-            </div> : <></>}
         </div>
     </>);
 }
