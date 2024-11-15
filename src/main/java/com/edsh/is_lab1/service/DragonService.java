@@ -7,7 +7,6 @@ import com.edsh.is_lab1.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,10 +41,9 @@ public class DragonService {
     }
 
     public void updateDragon(Dragon dragon) {
-        var existing = getDragonById(dragon.getId());
         applyExistingFields(dragon);
+        applyExistingIds(dragon);
         dragonRepository.save(dragon);
-        clearUnusedEntities(existing);
     }
 
     public void removeDragon(Dragon dragon) {
@@ -77,18 +75,42 @@ public class DragonService {
     }
 
     public void applyExistingFields(Dragon dragon) {
-        var id = dragon.getCoordinates().getId();
-        if (id != null) dragon.setCoordinates(coordinatesRepository.findById(id).orElseThrow());
-        coordinatesRepository
-                .findByXAndY(dragon.getCoordinates().getX(), dragon.getCoordinates().getY())
-                .ifPresent(dragon::setCoordinates);
-        id = dragon.getCave().getId();
-        if (id != null) dragon.setCave(dragonCaveRepository.findById(id).orElseThrow());
-        id = dragon.getHead().getId();
-        if (id != null) dragon.setHead(dragonHeadRepository.findById(id).orElseThrow());
-        id = dragon.getKiller().getId();
-        if (id != null) dragon.setKiller(personRepository.findById(id).orElseThrow());
-        personService.applyExistingFields(dragon.getKiller());
+        Long id;
+        if (dragon.getCoordinates() != null) {
+            id = dragon.getCoordinates().getId();
+            if (id != null) dragon.setCoordinates(coordinatesRepository.findById(id).orElseThrow());
+            else coordinatesRepository
+                    .findByXAndY(dragon.getCoordinates().getX(), dragon.getCoordinates().getY())
+                    .ifPresent(dragon::setCoordinates);
+        }
+        if (dragon.getCave() != null) {
+            id = dragon.getCave().getId();
+            if (id != null) dragon.setCave(dragonCaveRepository.findById(id).orElseThrow());
+        }
+        if (dragon.getHead() != null) {
+            id = dragon.getHead().getId();
+            if (id != null) dragon.setHead(dragonHeadRepository.findById(id).orElseThrow());
+        }
+        if (dragon.getKiller() != null) {
+            id = dragon.getKiller().getId();
+            if (id != null) dragon.setKiller(personRepository.findById(id).orElseThrow());
+            personService.applyExistingFields(dragon.getKiller());
+        }
+    }
+
+    public void applyExistingIds(Dragon dragon) {
+        var existing = getDragonById(dragon.getId());
+        if (dragon.getCoordinates() != null && dragon.getCoordinates().getId() == null)
+            dragon.getCoordinates().setId(existing.getCoordinates().getId());
+        if (dragon.getCave() != null && dragon.getCave().getId() == null)
+            dragon.getCave().setId(existing.getCave().getId());
+        if (dragon.getHead() != null && dragon.getHead().getId() == null)
+            dragon.getHead().setId(existing.getHead().getId());
+        if (dragon.getKiller() != null && dragon.getKiller().getId() == null) {
+            dragon.getKiller().setId(existing.getKiller().getId());
+            personService.applyExistingIds(dragon.getKiller());
+        }
+
     }
 
 }

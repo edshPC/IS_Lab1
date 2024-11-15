@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 @Data
 @Entity
 @Table(name = "IS_Coordinates")
-public class Coordinates implements Appliable<Coordinates> {
+public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,9 +20,4 @@ public class Coordinates implements Appliable<Coordinates> {
     @Max(value = 811, message = "Максимальное значение поля y: 811")
     private Long y; // Максимальное значение поля: 811, Поле не может быть null
 
-    @Override
-    public void applyDataFrom(Coordinates other) {
-        x = other.x;
-        y = other.y;
-    }
 }

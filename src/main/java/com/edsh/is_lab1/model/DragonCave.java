@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "IS_DragonCave")
-public class DragonCave implements Appliable<DragonCave> {
+public class DragonCave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +19,4 @@ public class DragonCave implements Appliable<DragonCave> {
     @DecimalMin(value = "0.01", message = "Количество сокровищ должно быть больше 0")
     private double numberOfTreasures; // Значение поля должно быть больше 0
 
-    @Override
-    public void applyDataFrom(DragonCave other) {
-        depth = other.depth;
-        numberOfTreasures = other.numberOfTreasures;
-    }
 }

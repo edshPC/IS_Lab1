@@ -18,7 +18,6 @@ export default function DragonForm({dragon, setDragon, onSubmit, subSelected}) {
         request("api/get_all_killers")
             .then(r => setKillers(r.data)).catch(console.error);
     }, []);
-
     const handleChange = (e) => {
         let {name, value} = e.target;
         if (value === '') value = null;

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 @Data
 @Entity
 @Table(name = "IS_Location")
-public class Location implements Appliable<Location> {
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,11 +18,4 @@ public class Location implements Appliable<Location> {
     @Size(max = 401, message = "Длина строки не должна превышать 401 символ")
     private String name; // Поле может быть null
 
-    @Override
-    public void applyDataFrom(Location other) {
-        x = other.x;
-        y = other.y;
-        z = other.z;
-        name = other.name;
-    }
 }

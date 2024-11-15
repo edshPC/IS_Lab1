@@ -44,4 +44,10 @@ public class PersonService {
         if (id != null) person.setLocation(locationRepository.findById(id).orElseThrow());
     }
 
+    public void applyExistingIds(Person person) {
+        var existing = getPersonById(person.getId());
+        if (person.getLocation() != null && person.getLocation().getId() == null)
+            person.getLocation().setId(existing.getLocation().getId());
+    }
+
 }

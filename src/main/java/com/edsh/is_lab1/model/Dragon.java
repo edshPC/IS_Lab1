@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "IS_Dragon")
 @Repository
-public class Dragon implements Appliable<Dragon> {
+public class Dragon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(value = 1, message = "ID должен быть больше 0")
@@ -50,21 +50,5 @@ public class Dragon implements Appliable<Dragon> {
 
     @ManyToOne
     private User owner;
-
-    @Override
-    public void applyDataFrom(Dragon other) {
-        name = other.name;
-        creationDate = other.creationDate;
-        age = other.age;
-        color = other.color;
-        type = other.type;
-        character = other.character;
-        coordinates.applyDataFrom(other.coordinates);
-        cave.applyDataFrom(other.cave);
-        if (other.killer == null) killer = null;
-        else killer.applyDataFrom(other.killer);
-        if (other.head == null) head = null;
-        else head.applyDataFrom(other.head);
-    }
 
 }

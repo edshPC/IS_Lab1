@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 @Table(name = "IS_Person")
 @Data
-public class Person implements Appliable<Person> {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,15 +30,4 @@ public class Person implements Appliable<Person> {
     private String passportID; //Длина строки должна быть не меньше 10, Поле не может быть null
     private Country nationality; //Поле может быть null
 
-    @Override
-    public void applyDataFrom(Person other) {
-        name = other.name;
-        eyeColor = other.eyeColor;
-        hairColor = other.hairColor;
-        height = other.height;
-        weight = other.weight;
-        passportID = other.passportID;
-        nationality = other.nationality;
-        location.applyDataFrom(other.location);
-    }
 }
