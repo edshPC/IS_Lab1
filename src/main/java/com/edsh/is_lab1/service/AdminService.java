@@ -31,7 +31,7 @@ public class AdminService {
             throw new AppException("You are already an admin");
         }
         if (adminApplicationRepository.findByUser(user).isPresent()) {
-            throw new AppException("You are already sent an admin application");
+            throw new AppException("You have already sent an admin application");
         }
         var application = new AdminApplication();
         application.setUser(user);

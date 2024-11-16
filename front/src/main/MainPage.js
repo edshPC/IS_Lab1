@@ -11,10 +11,7 @@ export default function MainPage() {
 
     const updateDragons = () => {
         silentRequest("api/public/get_all_dragons")
-            .then(r => {
-                let data = r?.data || [];
-                dispatch(updateState({data}))
-            });
+            .then(r => r && dispatch(updateState({data: r.data})));
     };
     useEffect(() => {
         updateDragons();

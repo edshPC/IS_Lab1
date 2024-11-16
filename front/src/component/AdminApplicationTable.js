@@ -26,7 +26,7 @@ export default function AdminApplicationTable() {
 
     useEffect(() => {
         silentRequest("api/admin/get-applications")
-            .then(r => { if(r) setApplications(r.data); });
+            .then(r => r && setApplications(r.data));
     }, []);
 
     const removeApplication = application => {
