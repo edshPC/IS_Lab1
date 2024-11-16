@@ -1,11 +1,12 @@
 import './App.css';
-import LoginAppMain, {fetchLoggedAs} from "./login/LoginMain";
-import {createBrowserRouter, Link, Outlet, RouterProvider} from "react-router-dom";
+import LoginAppMain from "./login/LoginMain";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import MainPage from "./main/MainPage";
 import Header from "./main/Header";
 import CreationPage from "./main/CreationPage";
 import EditionPage from "./main/EditionPage";
 import SpecialPage from "./main/SpecialPage";
+import AdminPage from "./main/AdminPage";
 
 export default function App() {
 
@@ -27,6 +28,9 @@ export default function App() {
         }, {
             path: "special",
             element: <SpecialPage/>
+        }, {
+            path: "admin",
+            element: <AdminPage/>
         }]
     }]);
 

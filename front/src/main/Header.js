@@ -18,21 +18,22 @@ function Header() {
     return (<>
         <Notification />
         <header className="container" id="header">
-            <Link to={"/"}>
+            <Link to="/">
                 <div>
                     <p>Лабораторная работа #1 по ИС, Вариант 130343</p>
                     <p>Выполнил Щербинин Эдуард P3314</p>
                 </div>
             </Link>
-            {logged_as?.permission === 'ADMIN' ?
-                <button className="rounded">Админ панель</button> : null}
+            <Link to="/admin">
+                <button className="rounded">Админ панель</button>
+            </Link>
             <div>
                 {logged_as ? <>
                     <p>Привет, {logged_as.login}</p>
                     <button className="rounded full" onClick={logout}>Выйти</button>
                 </> : <>
                     <p>Вы не авторизованы</p>
-                    <Link to={"/login"}>
+                    <Link to="/login">
                         <button className="rounded full">Войти</button>
                     </Link>
                 </>}

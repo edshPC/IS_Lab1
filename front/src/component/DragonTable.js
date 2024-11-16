@@ -28,7 +28,7 @@ function DragonAction({dragon}) {
             <button className="rounded full" onClick={handleEdit}>Изменить</button>
         </Link>
         <button className="rounded full" onClick={handleRemove}>Удалить</button>
-    </div>
+    </div>;
 }
 
 export default function DragonTable({data = []}) {
@@ -83,13 +83,13 @@ export default function DragonTable({data = []}) {
             data={data}
             dense
             persistTableHead
+            fixedHeader
             noDataComponent={null}
             direction={'ltr'}
             defaultSortFieldId={'id'}
             pagination
             paginationPerPage={5}
             paginationRowsPerPageOptions={[5, 10, 20, 30]}
-            fixedHeader
             responsive
             onSort={setFilterBy}
             expandableRows

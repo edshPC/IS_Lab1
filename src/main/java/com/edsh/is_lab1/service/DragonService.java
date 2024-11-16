@@ -110,7 +110,6 @@ public class DragonService {
             dragon.getKiller().setId(existing.getKiller().getId());
             personService.applyExistingIds(dragon.getKiller());
         }
-
     }
 
 }
