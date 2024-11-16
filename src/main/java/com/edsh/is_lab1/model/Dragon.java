@@ -1,5 +1,6 @@
 package com.edsh.is_lab1.model;
 
+import com.edsh.is_lab1.entity.ChangeListenedEntity;
 import com.edsh.is_lab1.entity.User;
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "IS_Dragon")
 @Repository
-public class Dragon {
+public class Dragon extends ChangeListenedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Min(value = 1, message = "ID должен быть больше 0")
@@ -51,4 +52,8 @@ public class Dragon {
     @ManyToOne
     private User owner;
 
+    @Override
+    public Long getListenedId() {
+        return id == null ? null : id.longValue();
+    }
 }

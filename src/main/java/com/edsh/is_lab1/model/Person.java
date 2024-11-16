@@ -1,5 +1,6 @@
 package com.edsh.is_lab1.model;
 
+import com.edsh.is_lab1.entity.ChangeListenedEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.Data;
 @Entity
 @Table(name = "IS_Person")
 @Data
-public class Person {
+public class Person extends ChangeListenedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +31,8 @@ public class Person {
     private String passportID; //Длина строки должна быть не меньше 10, Поле не может быть null
     private Country nationality; //Поле может быть null
 
+    @Override
+    public Long getListenedId() {
+        return id;
+    }
 }

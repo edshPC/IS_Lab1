@@ -6,6 +6,7 @@ import com.edsh.is_lab1.exception.AppException;
 import com.edsh.is_lab1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,10 @@ public class UserService {
         user.setPermission(User.Permission.USER);
         userRepository.save(user);
         return user;
+    }
+
+    public User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }
