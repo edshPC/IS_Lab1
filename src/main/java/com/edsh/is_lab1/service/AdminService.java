@@ -1,11 +1,14 @@
 package com.edsh.is_lab1.service;
 
 import com.edsh.is_lab1.entity.AdminApplication;
+import com.edsh.is_lab1.entity.ChangeHistory;
 import com.edsh.is_lab1.entity.User;
 import com.edsh.is_lab1.exception.AppException;
 import com.edsh.is_lab1.repository.AdminApplicationRepository;
+import com.edsh.is_lab1.repository.ChangeHistoryRepository;
 import com.edsh.is_lab1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,7 @@ public class AdminService {
 
     private final AdminApplicationRepository adminApplicationRepository;
     private final UserRepository userRepository;
+    private final ChangeHistoryRepository changeHistoryRepository;
 
     public List<AdminApplication> getAllApplications() {
         return adminApplicationRepository.findAll();
@@ -50,6 +54,11 @@ public class AdminService {
 
     public void declineAdminApplication(AdminApplication application) {
         adminApplicationRepository.delete(application);
+    }
+
+    public List<ChangeHistory> getLastChangeHistory(int limit) {
+        return changeHistoryRepository
+                .findAllByOrderByChangedAtDesc(PageRequest.of(0, limit));
     }
 
 }

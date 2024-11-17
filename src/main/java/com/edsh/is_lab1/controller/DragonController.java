@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ObjectController {
+public class DragonController {
 
     private final DragonService dragonService;
     private final PersonService personService;

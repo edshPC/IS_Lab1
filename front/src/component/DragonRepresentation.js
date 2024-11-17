@@ -3,7 +3,10 @@ function DragonAttribute({name, keys = [], object}) {
     if (!object) return null;
     return <div className="container">
         <p><b>{name}</b></p>
-        {keys.map((key, i) => <p key={i}>{key}: {object[key]}</p>)}
+        {keys.map((key, i) =>
+            object[key] !== undefined &&
+            <p key={i}>{key}: {object[key]}</p>
+        )}
     </div>
 }
 

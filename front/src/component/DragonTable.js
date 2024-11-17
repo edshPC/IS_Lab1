@@ -81,11 +81,6 @@ export default function DragonTable({data = []}) {
         <Table
             columns={columns}
             data={data}
-            dense
-            persistTableHead
-            fixedHeader
-            noDataComponent={null}
-            direction={'ltr'}
             defaultSortFieldId={'id'}
             pagination
             paginationPerPage={5}

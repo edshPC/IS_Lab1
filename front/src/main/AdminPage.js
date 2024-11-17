@@ -2,6 +2,7 @@ import {useSelector} from "react-redux";
 import AdminApplicationTable from "../component/AdminApplicationTable";
 import {useAuthorizationCheck, useRequest} from "../Util";
 import {useEffect} from "react";
+import ChangeHistoryTable from "../component/ChangeHistoryTable";
 
 export default function AdminPage() {
     const authorizationCheck = useAuthorizationCheck();
@@ -22,7 +23,14 @@ export default function AdminPage() {
         </div>;
     }
 
-    return <div className="container">
-        <AdminApplicationTable/>
+    return <div>
+        <div className="container">
+            <p>Заявки на администраторов</p>
+            <AdminApplicationTable/>
+        </div>
+        <div className="container">
+            <p>Последняя история изменений</p>
+            <ChangeHistoryTable/>
+        </div>
     </div>;
 }

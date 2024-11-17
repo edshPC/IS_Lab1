@@ -43,4 +43,12 @@ public class AdminController {
         return SimpleResponse.success("Заявка пользователя " + application.getUser().getLogin() + " отклонена");
     }
 
+    @GetMapping("/get-history")
+    public ResponseEntity<?> history(
+            @RequestParam(required = false, defaultValue = "1000") Integer limit,
+            @AuthenticationPrincipal User user) {
+        adminService.requireAdminPermission(user);
+        return DataResponse.success(adminService.getLastChangeHistory(limit));
+    }
+
 }

@@ -42,10 +42,5 @@ export default function AdminApplicationTable() {
     return <Table
         columns={columns}
         data={applications}
-        dense
-        persistTableHead
-        fixedHeader
-        noDataComponent={null}
-        direction={'ltr'}
     />;
 }

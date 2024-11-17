@@ -54,4 +54,3 @@ public class EntityChangeListener {
         changeHistoryRepository.save(changeHistory);
     }
 }
-

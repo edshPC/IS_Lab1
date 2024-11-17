@@ -9,19 +9,19 @@ export default function SpecialPage() {
     const request = useRequest();
 
     const [avgAge, setAvgAge] = useState('-');
-    const getAvgAge = () => request('api/average-age')
+    const getAvgAge = () => request('api/special/average-age')
         .then(r => setAvgAge(r.data)).catch(console.error);
 
     const [minCoordsDragon, setMinCoordsDragon] = useState();
-    const getMinCoordsDragon = () => request('api/minimum-coordinates')
+    const getMinCoordsDragon = () => request('api/special/minimum-coordinates')
         .then(r => setMinCoordsDragon(r.data)).catch(console.error);
 
     const [maxHeadDragon, setMaxHeadDragon] = useState();
-    const getMaxHeadDragon = () => request('api/maximum-head')
+    const getMaxHeadDragon = () => request('api/special/maximum-head')
         .then(r => setMaxHeadDragon(r.data)).catch(console.error);
 
     const [deepestCaveDragon, setDeepestCaveDragon] = useState();
-    const getDeepestCaveDragon = () => request('api/deepest-cave')
+    const getDeepestCaveDragon = () => request('api/special/deepest-cave')
         .then(r => setDeepestCaveDragon(r.data)).catch(console.error);
 
     const [killerTeam, setKillerTeam] = useState([]);
@@ -41,7 +41,7 @@ export default function SpecialPage() {
       setKiller({location: {}});
     };
     const addKillerTeam = () => {
-      request('api/create-killers', 'POST', killerTeam)
+      request('api/special/create-killers', 'POST', killerTeam)
           .then(r => setKillerTeam([])).catch(console.error);
     };
 
