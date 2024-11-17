@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && xcopy /E /H /C /I build ..\\src\\main\\resources\\static\n",
+    "build": "react-scripts build && rmdir /S /Q ..\\src\\main\\resources\\static && xcopy /E /H /C /I build ..\\src\\main\\resources\\static",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -10,8 +10,8 @@
     </parent>
     <groupId>com.edsh</groupId>
     <artifactId>IS_Lab1</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>1.0</version>
+    <packaging>jar</packaging>
     <name>IS_Lab1</name>
     <description>IS_Lab1</description>
     <url/>

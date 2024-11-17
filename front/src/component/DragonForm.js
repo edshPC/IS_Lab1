@@ -3,7 +3,7 @@ import InputField, {Type} from "./InputField";
 import OptionalComponent from "./OptionalForm";
 import {useSelector} from "react-redux";
 import KillerForm from "./KillerForm";
-import {useRequest} from "../Util";
+import {silentRequest} from "../Util";
 
 export const COLOR_VALUES = ["GREEN", "RED", "BLUE", "YELLOW", "BROWN"];
 export const COUNTRY_VALUES = ["RUSSIA", "USA", "CHINA", "ITALY", "JAPAN"];
@@ -13,10 +13,9 @@ export const DRAGON_CHARACTER_VALUES = ["CUNNING", "WISE", "CHAOTIC"];
 export default function DragonForm({dragon, setDragon, onSubmit, subSelected}) {
     const data = useSelector(state => state.data) || [];
     const [killers, setKillers] = useState(data.map(d => d.killer));
-    const request = useRequest();
     useEffect(() => {
-        request("api/get_all_killers")
-            .then(r => setKillers(r.data)).catch(console.error);
+        silentRequest("api/get_all_killers")
+            .then(r => r && setKillers(r.data));
     }, []);
     const handleChange = (e) => {
         let {name, value} = e.target;
