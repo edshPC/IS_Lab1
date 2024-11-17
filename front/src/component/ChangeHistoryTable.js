@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {silentRequest} from "../Util";
 import Table from "./Table";
 import DragonRepresentation from "./DragonRepresentation";
-import {retry} from "@reduxjs/toolkit/query";
 
 export default function ChangeHistoryTable() {
     const [history, setHistory] = useState([]);

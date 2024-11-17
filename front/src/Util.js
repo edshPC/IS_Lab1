@@ -2,7 +2,7 @@ import store, {updateState} from "./store";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
-const origin = "http://localhost:8080/";
+const origin = "http://localhost:24770/";
 
 export async function request(url, method = "GET", body = null) {
     let headers = {'Content-Type': 'application/json;charset=utf-8'};
