@@ -1,42 +1,60 @@
 import React, {useEffect, useState} from 'react';
 import ButtonCheckbox from "./ButtonCheckbox";
 
-export default function OptionalComponent({children, values = [], setId, name, initial}) {
+export default function OptionalComponent({
+                                              children,
+                                              values = [],
+                                              onChange,
+                                              name,
+                                              initial,
+                                              subSelected = false,
+                                              nullable = false
+                                          }) {
     const mapped = values.reduce((acc, item) => {
-        acc[item.id] = item; // Устанавливаем id как ключ, а остальные поля как значение
+        if (item) acc[item.id] = item; // Устанавливаем id как ключ, а остальные поля как значение
         return acc; // Возвращаем аккумулятор для следующей итерации
     }, {});
-    const [isChecked, setIsChecked] = useState(!!initial);
-    const [value, setValue] = useState(initial || values[0] || {});
+    const firstValid = values.find(x => x);
+    const [isExistingUsed, setIsExistingUsed] = useState(subSelected);
+    const [isNull, setIsNull] = useState(!initial);
+    const [value, setValue] = useState(initial || firstValid || {});
 
-    useEffect(() => setId(isChecked ? value.id : null), []);
-    const handleCheckboxChange = () => {
-        let willChecked = !isChecked && values.length > 0;
-        setIsChecked(willChecked);
-        setId(willChecked ? value.id : null);
-    };
-    let choose_element = null;
-    if (isChecked) {
-        const handleValueChange = e => {
-            let newValue = mapped[e.target.value];
-            setValue(newValue);
-            setId(newValue.id);
-        };
-        choose_element =
-            <select className="input box rounded"
-                    value={value.id} onChange={handleValueChange}>
-                {Object.entries(mapped).map(([id, item]) =>
-                    <option value={id} key={item.id}>{JSON.stringify(item)}</option>
-                )}
-            </select>;
-    }
+    useEffect(() => {
+        if (isNull) onChange(null);
+        else if (isExistingUsed) onChange(value.id ? value : firstValid);
+        else onChange({...value, id: null});
+    }, [isExistingUsed, value, isNull]);
+
+    const handleNullChange = () => setIsNull(!isNull);
+    const handleCheckboxChange = () => setIsExistingUsed(!isExistingUsed && firstValid);
+    const handleValueChange = e => setValue(mapped[e.target.value]);
+
+    const set_null_element = nullable &&
+        <div>
+            <label>Установить NULL: </label>
+            <ButtonCheckbox checked={isNull} onChange={handleNullChange}/>
+        </div>;
+
+    const choose_element = isExistingUsed &&
+        <select className="input box rounded"
+                value={value.id || firstValid.id} onChange={handleValueChange}>
+            {Object.entries(mapped).map(([id, item]) =>
+                <option value={id} key={id}>{JSON.stringify(item)}</option>
+            )}
+        </select>;
+
+    const form_element = !isNull &&
+        <>
+            <label>Использовать существующий: </label>
+            <ButtonCheckbox checked={isExistingUsed} onChange={handleCheckboxChange}/>
+            <div>{isExistingUsed ? choose_element : initial && children}</div>
+        </>;
 
     return (
         <div className="container">
-            <p><b>Укажите  {name}</b></p>
-            <label>Использовать существующий: </label>
-            <ButtonCheckbox checked={isChecked} onChange={handleCheckboxChange}/>
-            <div>{isChecked ? choose_element : children}</div>
+            <p><b>Укажите {name}</b></p>
+            {set_null_element}
+            {form_element}
         </div>
     );
 };

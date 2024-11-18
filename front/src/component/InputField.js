@@ -23,7 +23,7 @@ export default function InputField({type, object, name, onChange, values = [], c
         type = Type.Number;
         valid &= !value || isInt(value);
     }
-    //valid |= value === undefined;
+
     if (type === Type.Enum) {
         element = <select className="input box rounded" name={name}
                           value={value || ''} onChange={onChange}>

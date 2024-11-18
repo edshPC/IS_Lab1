@@ -35,57 +35,57 @@ export default function DragonForm({dragon, setDragon, onSubmit, subSelected}) {
         });
     };
     const getHandler = name => {
-        return value => handleChange({target: {name: `${name}.id`, value}})
+        return value => handleChange({target: {name, value}})
     }
 
     const onGenerate = e => {
         setDragon({...dragon, ...getRandomDragon()});
     }
+    //console.log(dragon);
 
     return (
         <div className="container">
             <p><b>Укажите аттрибуты</b></p>
             <div className="form">
-            <InputField type={Type.String} name="name" object={dragon} onChange={handleChange}
-                        check={e => e && e.length > 0}/>
-            <InputField type={Type.Integer} name="age" object={dragon} onChange={handleChange}
-                        check={e => e > 0}/>
-            <InputField type={Type.Enum} name="color" object={dragon} onChange={handleChange}
-                        values={COLOR_VALUES} check={e => Boolean(e)}/>
-            <InputField type={Type.Enum} name="type" object={dragon} onChange={handleChange}
-                        values={DRAGON_TYPE_VALUES}/>
-            <InputField type={Type.Enum} name="character" object={dragon} onChange={handleChange}
-                        values={DRAGON_CHARACTER_VALUES} check={e => Boolean(e)}/>
-            <OptionalComponent name="координаты" initial={subSelected ? dragon.coordinates : null}
-                values={data.map(d => d.coordinates)} setId={getHandler("coordinates")}>
-                <InputField type={Type.Integer} name="coordinates.x" object={dragon} onChange={handleChange}
-                            check={e => e && e <= 235}/>
-                <InputField type={Type.Integer} name="coordinates.y" object={dragon} onChange={handleChange}
-                            check={e => e && e <= 811}/>
-            </OptionalComponent>
-            <OptionalComponent name="перещу" initial={subSelected ? dragon.cave : null}
-                               values={data.map(d => d.cave)} setId={getHandler("cave")}>
-                <InputField type={Type.Number} name="cave.depth" object={dragon} onChange={handleChange}
+                <InputField type={Type.String} name="name" object={dragon} onChange={handleChange}
+                            check={e => e && e.length > 0}/>
+                <InputField type={Type.Integer} name="age" object={dragon} onChange={handleChange}
                             check={e => e > 0}/>
-                <InputField type={Type.Number} name="cave.numberOfTreasures" object={dragon} onChange={handleChange}
-                            check={e => e > 0}/>
-            </OptionalComponent>
-            <OptionalComponent name="голову" initial={subSelected ? dragon.head : null}
-                               values={data.map(d => d.head)} setId={getHandler("head")}>
-                <InputField type={Type.Integer} name="head.size" object={dragon} onChange={handleChange}/>
-                <InputField type={Type.Number} name="head.eyesCount" object={dragon} onChange={handleChange}
-                            check={e => e}/>
-                <InputField type={Type.Number} name="head.toothCount" object={dragon} onChange={handleChange}/>
-            </OptionalComponent>
-            <OptionalComponent name="убийцу" initial={subSelected ? dragon.killer : null}
-                               values={killers} setId={getHandler("killer")}>
-                <KillerForm object={dragon} onChange={handleChange} subSelected={subSelected} />
-            </OptionalComponent>
-            <div className="justify">
-                <button onClick={onSubmit} className="rounded full">Отправить</button>
-                <button onClick={onGenerate} className="rounded margin">Сгенерировать</button>
-            </div>
-
+                <InputField type={Type.Enum} name="color" object={dragon} onChange={handleChange}
+                            values={COLOR_VALUES} check={e => Boolean(e)}/>
+                <InputField type={Type.Enum} name="type" object={dragon} onChange={handleChange}
+                            values={DRAGON_TYPE_VALUES}/>
+                <InputField type={Type.Enum} name="character" object={dragon} onChange={handleChange}
+                            values={DRAGON_CHARACTER_VALUES} check={e => Boolean(e)}/>
+                <OptionalComponent name="координаты" initial={dragon.coordinates} subSelected={subSelected}
+                                   values={data.map(d => d.coordinates)} onChange={getHandler("coordinates")}>
+                    <InputField type={Type.Integer} name="coordinates.x" object={dragon} onChange={handleChange}
+                                check={e => e && e <= 235}/>
+                    <InputField type={Type.Integer} name="coordinates.y" object={dragon} onChange={handleChange}
+                                check={e => e && e <= 811}/>
+                </OptionalComponent>
+                <OptionalComponent name="перещу" initial={dragon.cave} subSelected={subSelected}
+                                   values={data.map(d => d.cave)} onChange={getHandler("cave")}>
+                    <InputField type={Type.Number} name="cave.depth" object={dragon} onChange={handleChange}
+                                check={e => e > 0}/>
+                    <InputField type={Type.Number} name="cave.numberOfTreasures" object={dragon} onChange={handleChange}
+                                check={e => e > 0}/>
+                </OptionalComponent>
+                <OptionalComponent name="голову" initial={dragon.head} subSelected={subSelected} nullable
+                                   values={data.map(d => d.head)} onChange={getHandler("head")}>
+                    <InputField type={Type.Integer} name="head.size" object={dragon} onChange={handleChange}/>
+                    <InputField type={Type.Number} name="head.eyesCount" object={dragon} onChange={handleChange}
+                                check={e => e}/>
+                    <InputField type={Type.Number} name="head.toothCount" object={dragon} onChange={handleChange}/>
+                </OptionalComponent>
+                <OptionalComponent name="убийцу" initial={dragon.killer} subSelected={subSelected} nullable
+                                   values={killers} onChange={getHandler("killer")}>
+                    <KillerForm object={dragon} onChange={handleChange} subSelected={subSelected}/>
+                </OptionalComponent>
+                <div className="justify">
+                    <button onClick={onSubmit} className="rounded full">Отправить</button>
+                    <button onClick={onGenerate} className="rounded margin">Сгенерировать</button>
+                </div>
             </div>
         </div>
     );

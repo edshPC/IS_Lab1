@@ -55,3 +55,8 @@ export async function silentRequest(...args) {
         return await request(...args);
     } catch (err) {}
 }
+
+export function updateDragons(dispatch) {
+    silentRequest("api/public/get_all_dragons")
+        .then(r => r && dispatch(updateState({data: r.data})));
+}

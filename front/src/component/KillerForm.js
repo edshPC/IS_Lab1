@@ -22,8 +22,8 @@ export default function KillerForm({object, onChange, subSelected}) {
                     check={e => e && e.length >= 10}/>
         <InputField type={Type.Enum} name="killer.nationality" object={object} onChange={onChange}
                     values={COUNTRY_VALUES}/>
-        <OptionalComponent name="локацию" initial={subSelected ? object.location : null}
-                           values={data.map(d => d.killer.location)} setId={value => onChange({target: {name: "killer.location.id", value}})}>
+        <OptionalComponent name="локацию" initial={object.killer?.location} subSelected={subSelected}
+                           values={data.map(d => d.killer?.location)} onChange={value => onChange({target: {name: "killer.location", value}})}>
             <InputField type={Type.Number} name="killer.location.x" object={object} onChange={onChange}/>
             <InputField type={Type.Integer} name="killer.location.y" object={object} onChange={onChange}/>
             <InputField type={Type.Number} name="killer.location.z" object={object} onChange={onChange}/>

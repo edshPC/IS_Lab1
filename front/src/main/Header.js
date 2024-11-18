@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import {fetchLoggedAs} from "../login/LoginMain";
 import {updateState} from "../store";
 import Notification from "../component/Notification";
+import {updateDragons} from "../Util";
 
 function Header() {
     const dispatch = useDispatch();
@@ -11,6 +12,7 @@ function Header() {
 
     useEffect(() => {
         fetchLoggedAs().then(logged_as => dispatch(updateState({logged_as})));
+        updateDragons(dispatch);
     }, [dispatch]);
 
     const logout = () => dispatch({type: "CLEAR_AUTH"});
