@@ -7,6 +7,7 @@ import com.edsh.is_lab1.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,11 +26,13 @@ public class PersonService {
                 .orElseThrow(() -> new AppException("No person with id " + id, HttpStatus.BAD_REQUEST));
     }
 
+    @Transactional
     public void addPerson(Person person) {
         applyExistingFields(person);
         personRepository.save(person);
     }
 
+    @Transactional
     public void removePerson(Person person) {
         person = getPersonById(person.getId());
         personRepository.delete(person);

@@ -35,6 +35,7 @@ public class DragonService {
                 .orElseThrow(() -> new AppException("No dragon with id " + id, HttpStatus.NOT_FOUND));
     }
 
+    @Transactional
     public void addDragon(Dragon dragon, User owner) {
         dragon.setOwner(owner);
         applyExistingFields(dragon);
@@ -46,12 +47,14 @@ public class DragonService {
         dragons.forEach(dragon -> addDragon(dragon, owner));
     }
 
+    @Transactional
     public void updateDragon(Dragon dragon) {
         applyExistingFields(dragon);
         applyExistingIds(dragon);
         dragonRepository.save(dragon);
     }
 
+    @Transactional
     public void removeDragon(Dragon dragon) {
         dragon = getDragonById(dragon.getId());
         dragonRepository.delete(dragon);
