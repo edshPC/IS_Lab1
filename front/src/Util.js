@@ -4,16 +4,17 @@ import {useNavigate} from "react-router-dom";
 
 const origin = "http://localhost:24770/";
 
-export async function request(url, method = "GET", body = null) {
-    let headers = {'Content-Type': 'application/json;charset=utf-8'};
+export async function request(url, method = "GET", body = null, formData = null) {
+    let headers = {};
     let token = store.getState().token;
     if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (!formData) headers['Content-Type'] = 'application/json;charset=utf-8';
+    body = body && JSON.stringify(body);
 
     let raw = await fetch(origin + url, {
         method,
         headers,
-        //credentials: 'include',
-        body: body ? JSON.stringify(body) : undefined,
+        body: body || formData || undefined,
     });
     let res = await raw.json();
     console.log(res);
@@ -57,6 +58,6 @@ export async function silentRequest(...args) {
 }
 
 export function updateDragons(dispatch) {
-    silentRequest("api/public/get_all_dragons")
+    silentRequest("api/public/get-all-dragons")
         .then(r => r && dispatch(updateState({data: r.data})));
 }

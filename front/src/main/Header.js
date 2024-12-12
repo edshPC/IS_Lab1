@@ -31,7 +31,7 @@ function Header() {
             </Link>
             <div>
                 {logged_as ? <>
-                    <p>Привет, {logged_as.login}</p>
+                    <p>Привет, {logged_as.username}</p>
                     <button className="rounded full" onClick={logout}>Выйти</button>
                 </> : <>
                     <p>Вы не авторизованы</p>

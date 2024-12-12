@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
     @Id
-    private String login;
+    private String username;
     @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)

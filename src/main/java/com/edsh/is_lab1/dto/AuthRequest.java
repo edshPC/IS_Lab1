@@ -11,7 +11,7 @@ public class AuthRequest {
 
     public User asUser(PasswordEncoder passwordEncoder) {
         User user = new User();
-        user.setLogin(login);
+        user.setUsername(login);
         user.setPassword(passwordEncoder.encode(password));
         return user;
     }

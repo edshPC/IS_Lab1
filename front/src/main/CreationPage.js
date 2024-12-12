@@ -35,7 +35,7 @@ export default function CreationPage() {
 
     const request = useRequest();
     const onSubmit = e => {
-        request("api/add_dragon", "POST", dragon)
+        request("api/add-dragon", "POST", dragon)
             .then(() => {
                 let data = [...store.getState().data, dragon];
                 dispatch(updateState({data}));

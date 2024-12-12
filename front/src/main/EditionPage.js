@@ -20,7 +20,7 @@ export default function EditionPage() {
     if (!current_dragon) return null;
 
     const onSubmit = e => {
-        request("api/update_dragon", "POST", dragon)
+        request("api/update-dragon", "POST", dragon)
             .then(r => {
                 let data = store.getState().data
                     .map(d => d.id === dragon.id ? dragon : d);

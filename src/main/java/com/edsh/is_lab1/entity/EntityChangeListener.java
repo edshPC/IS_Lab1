@@ -4,7 +4,6 @@ import com.edsh.is_lab1.repository.ChangeHistoryRepository;
 import com.edsh.is_lab1.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.*;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -12,15 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class EntityChangeListener {
 
-    private final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private final ChangeHistoryRepository changeHistoryRepository;
     private final UserService userService;
 
     public EntityChangeListener(@Lazy ChangeHistoryRepository changeHistoryRepository,
-                                @Lazy UserService userService) {
+                                @Lazy UserService userService,
+                                ObjectMapper objectMapper) {
         this.changeHistoryRepository = changeHistoryRepository;
         this.userService = userService;
-        OBJECT_MAPPER.registerModule(new JavaTimeModule());
+        this.objectMapper = objectMapper;
     }
 
     @PostPersist
@@ -46,7 +46,7 @@ public class EntityChangeListener {
         changeHistory.setChangedBy(userService.getCurrentUser());
 
         try {
-            changeHistory.setEntity(OBJECT_MAPPER.writeValueAsString(entity));
+            changeHistory.setEntity(objectMapper.writeValueAsString(entity));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

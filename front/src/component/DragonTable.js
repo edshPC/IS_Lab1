@@ -15,7 +15,7 @@ function DragonAction({dragon}) {
     };
 
     const handleRemove = e => {
-        request("api/remove_dragon", "POST", dragon)
+        request("api/remove-dragon", "POST", dragon)
             .then(r => {
                 let data = store.getState().data
                     .filter(d => d.id !== dragon.id);
@@ -58,7 +58,7 @@ export default function DragonTable({data = []}) {
         // {name: 'Location Y', selector: row => row.killer?.location?.y || 'N/A'},
         // {name: 'Location Z', selector: row => row.killer?.location?.z || 'N/A'},
         // {name: 'Location Name', selector: row => row.killer?.location?.name || 'N/A'},
-        {name: 'Owner', selector: row => row.owner?.login},
+        {name: 'Owner', selector: row => row.owner?.username},
         {cell: row => <DragonAction dragon={row}/>},
     ];
     columns.forEach(col => {

@@ -34,7 +34,7 @@ export default function AdminApplicationTable() {
     };
 
     const columns = [
-        {name: 'User Name', selector: row => row.user.login, width: '160px'},
+        {name: 'User Name', selector: row => row.user.username, width: '160px'},
         {name: 'Creation Date', selector: row => new Date(row.creationDate).toLocaleString(), width: '160px'},
         {cell: row => <ApplicationAction application={row} onAction={removeApplication} />},
     ];

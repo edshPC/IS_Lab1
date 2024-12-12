@@ -17,13 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login)
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
     }
 
     public User login(AuthRequest authRequest) {
-        User user = findByLogin(authRequest.getLogin());
+        User user = findByUsername(authRequest.getLogin());
         if(passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             return user;
         }
@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public User register(AuthRequest authRequest) {
-        if (userRepository.findByLogin(authRequest.getLogin()).isPresent()) {
+        if (userRepository.findByUsername(authRequest.getLogin()).isPresent()) {
             throw new AppException("User already exists");
         }
         if (authRequest.getPassword().length() < 4) {

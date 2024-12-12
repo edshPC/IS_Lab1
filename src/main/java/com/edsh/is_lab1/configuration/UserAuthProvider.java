@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -41,7 +40,7 @@ public class UserAuthProvider {
     public Authentication validateToken(String token) {
         var verifier = JWT.require(Algorithm.HMAC256(secretKey)).build();
         var decoded = verifier.verify(token);
-        User user = userService.findByLogin(decoded.getIssuer());
+        User user = userService.findByUsername(decoded.getIssuer());
         return new UsernamePasswordAuthenticationToken(user, null,
                 List.of(() -> user.getPermission().toString()));
     }

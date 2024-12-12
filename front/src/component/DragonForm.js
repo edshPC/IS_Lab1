@@ -14,7 +14,7 @@ export default function DragonForm({dragon, setDragon, onSubmit, subSelected}) {
     const data = useSelector(state => state.data) || [];
     const [killers, setKillers] = useState(data.map(d => d.killer));
     useEffect(() => {
-        silentRequest("api/get_all_killers")
+        silentRequest("api/get-all-killers")
             .then(r => r && setKillers(r.data));
     }, []);
     const handleChange = (e) => {

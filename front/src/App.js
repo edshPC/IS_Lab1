@@ -7,6 +7,7 @@ import CreationPage from "./main/CreationPage";
 import EditionPage from "./main/EditionPage";
 import SpecialPage from "./main/SpecialPage";
 import AdminPage from "./main/AdminPage";
+import FileManagerPage from "./main/FileManagerPage";
 
 export default function App() {
 
@@ -31,6 +32,9 @@ export default function App() {
         }, {
             path: "admin",
             element: <AdminPage/>
+        }, {
+            path: "file",
+            element: <FileManagerPage/>
         }]
     }]);
 

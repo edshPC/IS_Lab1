@@ -30,23 +30,24 @@ public class AdminController {
     }
 
     @PostMapping("/accept")
-    public ResponseEntity<?> accept(@RequestBody AdminApplication application, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> accept(@RequestBody AdminApplication application,
+                                    @AuthenticationPrincipal User user) {
         adminService.requireAdminPermission(user);
         adminService.acceptAdminApplication(application);
-        return SimpleResponse.success("Заявка пользователя " + application.getUser().getLogin() + " принята");
+        return SimpleResponse.success("Заявка пользователя " + application.getUser().getUsername() + " принята");
     }
 
     @PostMapping("/decline")
-    public ResponseEntity<?> decline(@RequestBody AdminApplication application, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> decline(@RequestBody AdminApplication application,
+                                     @AuthenticationPrincipal User user) {
         adminService.requireAdminPermission(user);
         adminService.declineAdminApplication(application);
-        return SimpleResponse.success("Заявка пользователя " + application.getUser().getLogin() + " отклонена");
+        return SimpleResponse.success("Заявка пользователя " + application.getUser().getUsername() + " отклонена");
     }
 
     @GetMapping("/get-history")
-    public ResponseEntity<?> history(
-            @RequestParam(required = false, defaultValue = "1000") Integer limit,
-            @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> history(@RequestParam(required = false, defaultValue = "1000") Integer limit,
+                                     @AuthenticationPrincipal User user) {
         adminService.requireAdminPermission(user);
         return DataResponse.success(adminService.getLastChangeHistory(limit));
     }

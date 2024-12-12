@@ -21,5 +21,8 @@ export default function MainPage() {
         <Link to="/special">
             <button className="rounded margin">Спец операции</button>
         </Link>
+        <Link to="/file">
+            <button className="rounded">Файловый менеджер</button>
+        </Link>
     </div>;
 }

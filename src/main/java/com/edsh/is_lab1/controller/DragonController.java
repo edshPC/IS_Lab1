@@ -20,31 +20,34 @@ public class DragonController {
     private final DragonService dragonService;
     private final PersonService personService;
 
-    @GetMapping("/public/get_all_dragons")
+    @GetMapping("/public/get-all-dragons")
     public ResponseEntity<?> getDragons() {
         return DataResponse.success(dragonService.getAllDragons());
     }
 
-    @GetMapping("/get_all_killers")
+    @GetMapping("/get-all-killers")
     public ResponseEntity<?> getKillers() {
         return DataResponse.success(personService.getAllPeople());
     }
 
-    @PostMapping("/add_dragon")
-    public ResponseEntity<?> addDragon(@RequestBody @Valid Dragon dragon, @AuthenticationPrincipal User user) {
+    @PostMapping("/add-dragon")
+    public ResponseEntity<?> addDragon(@RequestBody @Valid Dragon dragon,
+                                       @AuthenticationPrincipal User user) {
         dragonService.addDragon(dragon, user);
         return SimpleResponse.success("Дракон успешно добавлен");
     }
 
-    @PostMapping("/update_dragon")
-    public ResponseEntity<?> updateDragon(@RequestBody @Valid Dragon dragon, @AuthenticationPrincipal User user) {
+    @PostMapping("/update-dragon")
+    public ResponseEntity<?> updateDragon(@RequestBody @Valid Dragon dragon,
+                                          @AuthenticationPrincipal User user) {
         dragonService.checkDragonOwner(dragon, user);
         dragonService.updateDragon(dragon);
         return SimpleResponse.success("Дракон успешно обновлён");
     }
 
-    @PostMapping("/remove_dragon")
-    public ResponseEntity<?> removeDragon(@RequestBody Dragon dragon, @AuthenticationPrincipal User user) {
+    @PostMapping("/remove-dragon")
+    public ResponseEntity<?> removeDragon(@RequestBody Dragon dragon,
+                                          @AuthenticationPrincipal User user) {
         dragonService.checkDragonOwner(dragon, user);
         dragonService.removeDragon(dragon);
         return SimpleResponse.success("Дракон успешно удалён");

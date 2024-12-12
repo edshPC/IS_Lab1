@@ -16,7 +16,7 @@ export default function ChangeHistoryTable() {
         {name: 'Object ID', selector: row => row.entityId, width: '120px'},
         {name: 'Action', selector: row => row.action, width: '120px'},
         {name: 'Changed At', selector: row => new Date(row.changedAt).toLocaleString(), width: '160px'},
-        {name: 'Changed By', selector: row => row.changedBy.login, width: '160px'},
+        {name: 'Changed By', selector: row => row.changedBy.username, width: '160px'},
     ];
 
     const expandable = ({data}) => {

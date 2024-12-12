@@ -7,6 +7,7 @@ import com.edsh.is_lab1.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class DragonService {
         dragonRepository.save(dragon);
     }
 
+    @Transactional
+    public void addDragons(List<Dragon> dragons, User owner) {
+        dragons.forEach(dragon -> addDragon(dragon, owner));
+    }
+
     public void updateDragon(Dragon dragon) {
         applyExistingFields(dragon);
         applyExistingIds(dragon);
@@ -69,7 +75,7 @@ public class DragonService {
 
     public void checkDragonOwner(Dragon dragon, User user) {
         if (dragon.getOwner() != null &&
-            !dragon.getOwner().getLogin().equals(user.getLogin()) &&
+            !dragon.getOwner().getUsername().equals(user.getUsername()) &&
             user.getPermission() != User.Permission.ADMIN)
             throw new AppException("You don't have access to dragon " + dragon.getId(), HttpStatus.FORBIDDEN);
     }
