@@ -44,4 +44,9 @@ public class FileController {
         return SimpleResponse.success("Файл " + file.getName() + " удалён");
     }
 
+    @GetMapping("/get-history")
+    public ResponseEntity<?> getHistory(@AuthenticationPrincipal User user) {
+        return DataResponse.success(fileService.getImportHistory(user));
+    }
+
 }

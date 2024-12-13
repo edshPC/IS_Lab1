@@ -1,8 +1,10 @@
 package com.edsh.is_lab1.service;
 
 import com.edsh.is_lab1.dto.FileDTO;
+import com.edsh.is_lab1.entity.ImportHistory;
 import com.edsh.is_lab1.entity.User;
 import com.edsh.is_lab1.model.Dragon;
+import com.edsh.is_lab1.repository.ImportHistoryRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.minio.*;
@@ -21,6 +23,7 @@ public class FileService {
     private final MinioClient minioClient;
     private final ObjectMapper objectMapper;
     private final DragonService dragonService;
+    private final ImportHistoryRepository importHistoryRepository;
 
     @SneakyThrows
     public String createUserBucketIfNotExists(User user) {
@@ -60,7 +63,16 @@ public class FileService {
                 .build());
         var dragons = objectMapper.readValue(object, new TypeReference<List<Dragon>>() {});
         object.close();
-        dragonService.addDragons(dragons, user);
+        var importHistory = new ImportHistory();
+        importHistory.setFileName(file.getName());
+        importHistory.setImportedBy(user);
+        try {
+            dragonService.addDragons(dragons, user);
+            importHistory.setStatus(ImportHistory.Status.COMMITTED);
+            importHistory.setEntities(dragons.size());
+        } finally {
+            importHistoryRepository.save(importHistory);
+        }
         return dragons.size();
     }
 
@@ -71,6 +83,13 @@ public class FileService {
                 .bucket(bucket)
                 .object(file.getName())
                 .build());
+    }
+
+    public List<ImportHistory> getImportHistory(User user) {
+        if (user.getPermission() == User.Permission.ADMIN) {
+            return importHistoryRepository.findAllByOrderByImportedAtDesc();
+        }
+        return importHistoryRepository.findAllByImportedByOrderByImportedAtDesc(user);
     }
 
 }

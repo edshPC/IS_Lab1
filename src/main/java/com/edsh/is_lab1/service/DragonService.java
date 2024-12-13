@@ -7,6 +7,7 @@ import com.edsh.is_lab1.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -61,6 +62,7 @@ public class DragonService {
         clearUnusedEntities(dragon);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void clearUnusedEntities(Dragon dragon) {
         if (dragonRepository.countByCoordinates(dragon.getCoordinates()) == 0) {
             coordinatesRepository.delete(dragon.getCoordinates());
