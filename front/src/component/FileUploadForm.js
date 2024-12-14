@@ -10,16 +10,18 @@ export default function FileUploadForm({onAction}) {
         setFile(event.target.files[0]);
     };
 
+    const fileReset = () => {
+        onAction(file);
+        setFile(null);
+        fileInputRef.current.value = '';
+    };
+
     const handleUpload = () => {
         if (!file) return;
         const formData = new FormData();
         formData.append('file', file);
         request("api/file/upload", "POST", null, formData)
-            .then(r => {
-                onAction(file);
-                setFile(null);
-                fileInputRef.current.value = '';
-            }).catch(console.error);
+            .then(fileReset).catch(err => console.error(err) || fileReset());
     };
 
     return <div>

@@ -6,6 +6,8 @@ import com.edsh.is_lab1.dto.SimpleResponse;
 import com.edsh.is_lab1.entity.User;
 import com.edsh.is_lab1.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,15 +28,18 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam MultipartFile file,
                                     @AuthenticationPrincipal User user) {
-        fileService.uploadUserFile(file, user);
-        return SimpleResponse.success("Файл " + file.getOriginalFilename() + " загружен");
+        int n = fileService.uploadUserFile(file, user);
+        return SimpleResponse.success("Файл " + file.getOriginalFilename() +
+                                      " загружен: создано " + n + " драконов");
     }
 
-    @PostMapping("/create-dragons")
-    public ResponseEntity<?> create(@RequestBody FileDTO file,
-                                    @AuthenticationPrincipal User user) {
-        int n = fileService.createDragons(file, user);
-        return SimpleResponse.success("Успешно создано " + n + " драконов из файла " + file.getName());
+    @GetMapping("/download/{filename}")
+    public ResponseEntity<?> download(@PathVariable String filename,
+                                      @AuthenticationPrincipal User user) {
+        byte[] content = fileService.readFile(filename, user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")

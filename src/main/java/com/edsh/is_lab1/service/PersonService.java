@@ -57,7 +57,7 @@ public class PersonService {
 
     public void applyExistingFields(Person person) {
         var id = person.getLocation().getId();
-        if (id != null) person.setLocation(locationRepository.findById(id).orElseThrow());
+        if (id != null) locationRepository.findById(id).ifPresent(person::setLocation);
     }
 
     public void applyExistingIds(Person person) {

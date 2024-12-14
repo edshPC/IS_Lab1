@@ -10,7 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -24,6 +28,9 @@ public class FileService {
     private final ObjectMapper objectMapper;
     private final DragonService dragonService;
     private final ImportHistoryRepository importHistoryRepository;
+    @Lazy
+    @Autowired
+    private FileService fileService;
 
     @SneakyThrows
     public String createUserBucketIfNotExists(User user) {
@@ -44,7 +51,36 @@ public class FileService {
     }
 
     @SneakyThrows
-    public void uploadUserFile(MultipartFile file, User user) {
+    public byte[] readFile(String filename, User user) {
+        String bucket = createUserBucketIfNotExists(user);
+        var object = minioClient.getObject(GetObjectArgs.builder()
+                .bucket(bucket)
+                .object(filename)
+                .build());
+        return object.readAllBytes();
+    }
+
+    public int uploadUserFile(MultipartFile file, User user) {
+        var importHistory = new ImportHistory();
+        importHistory.setFileName(file.getOriginalFilename());
+        importHistory.setImportedBy(user);
+        try {
+            int n = fileService.importUserFile(file, user);
+            importHistory.setStatus(ImportHistory.Status.COMMITTED);
+            importHistory.setEntities(n);
+            return n;
+        } finally {
+            importHistoryRepository.save(importHistory);
+        }
+    }
+
+    @SneakyThrows
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public int importUserFile(MultipartFile file, User user) {
+        var dragons = objectMapper.readValue(file.getBytes(), new TypeReference<List<Dragon>>() {
+        });
+        dragonService.addDragons(dragons, user);
+
         String bucket = createUserBucketIfNotExists(user);
         minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucket)
@@ -52,27 +88,7 @@ public class FileService {
                 .contentType(file.getContentType())
                 .stream(file.getInputStream(), file.getSize(), -1)
                 .build());
-    }
 
-    @SneakyThrows
-    public int createDragons(FileDTO file, User user) {
-        String bucket = createUserBucketIfNotExists(user);
-        var object = minioClient.getObject(GetObjectArgs.builder()
-                .bucket(bucket)
-                .object(file.getName())
-                .build());
-        var dragons = objectMapper.readValue(object, new TypeReference<List<Dragon>>() {});
-        object.close();
-        var importHistory = new ImportHistory();
-        importHistory.setFileName(file.getName());
-        importHistory.setImportedBy(user);
-        try {
-            dragonService.addDragons(dragons, user);
-            importHistory.setStatus(ImportHistory.Status.COMMITTED);
-            importHistory.setEntities(dragons.size());
-        } finally {
-            importHistoryRepository.save(importHistory);
-        }
         return dragons.size();
     }
 

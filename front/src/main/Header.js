@@ -22,7 +22,7 @@ function Header() {
         <header className="container" id="header">
             <Link to="/">
                 <div>
-                    <p>Лабораторная работа #1 по ИС, Вариант 130343</p>
+                    <p>Лабораторная работа по ИС, Вариант 130343</p>
                     <p>Выполнил Щербинин Эдуард P3314</p>
                 </div>
             </Link>

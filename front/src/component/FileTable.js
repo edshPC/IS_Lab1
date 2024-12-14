@@ -1,14 +1,12 @@
 import Table from "./Table";
-import {useRequest} from "../Util";
-import {useNavigate} from "react-router-dom";
+import {downloadFile, useRequest} from "../Util";
 
 function FileAction({file, onAction}) {
     const request = useRequest();
-    const navigate = useNavigate();
 
-    const handleCreate = e => {
-        request("api/file/create-dragons", "POST", file)
-            .then(r => navigate('/')).catch(console.error);
+    const handleDownload = e => {
+        request(`api/file/download/${file.name}`, "GET", null, null, true)
+            .then(blob => downloadFile(blob, file.name)).catch(console.error);
     };
 
     const handleDelete = e => {
@@ -17,7 +15,7 @@ function FileAction({file, onAction}) {
     };
 
     return <div className="">
-        <button className="rounded full" onClick={handleCreate}>Создать</button>
+        <button className="rounded full" onClick={handleDownload}>Скачать</button>
         <button className="rounded full" onClick={handleDelete}>Удалить</button>
     </div>;
 }

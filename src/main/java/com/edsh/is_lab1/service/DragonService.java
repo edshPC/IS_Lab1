@@ -92,22 +92,22 @@ public class DragonService {
         Long id;
         if (dragon.getCoordinates() != null) {
             id = dragon.getCoordinates().getId();
-            if (id != null) dragon.setCoordinates(coordinatesRepository.findById(id).orElseThrow());
+            if (id != null) coordinatesRepository.findById(id).ifPresent(dragon::setCoordinates);
             else coordinatesRepository
                     .findByXAndY(dragon.getCoordinates().getX(), dragon.getCoordinates().getY())
                     .ifPresent(dragon::setCoordinates);
         }
         if (dragon.getCave() != null) {
             id = dragon.getCave().getId();
-            if (id != null) dragon.setCave(dragonCaveRepository.findById(id).orElseThrow());
+            if (id != null) dragonCaveRepository.findById(id).ifPresent(dragon::setCave);
         }
         if (dragon.getHead() != null) {
             id = dragon.getHead().getId();
-            if (id != null) dragon.setHead(dragonHeadRepository.findById(id).orElseThrow());
+            if (id != null) dragonHeadRepository.findById(id).ifPresent(dragon::setHead);
         }
         if (dragon.getKiller() != null) {
             id = dragon.getKiller().getId();
-            if (id != null) dragon.setKiller(personRepository.findById(id).orElseThrow());
+            if (id != null) personRepository.findById(id).ifPresent(dragon::setKiller);
             personService.applyExistingFields(dragon.getKiller());
         }
     }

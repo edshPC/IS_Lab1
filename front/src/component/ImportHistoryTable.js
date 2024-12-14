@@ -1,14 +1,6 @@
-import {useEffect, useState} from "react";
-import {silentRequest} from "../Util";
 import Table from "./Table";
 
-export default function ImportHistoryTable() {
-    const [history, setHistory] = useState([]);
-
-    useEffect(() => {
-        silentRequest("api/file/get-history")
-            .then(r => r && setHistory(r.data));
-    }, []);
+export default function ImportHistoryTable({history}) {
 
     const columns = [
         {name: 'File Name', selector: row => row.fileName, width: '120px'},

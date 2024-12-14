@@ -8,10 +8,13 @@ export default function FileManagerPage() {
     const authorizationCheck = useAuthorizationCheck();
     useEffect(authorizationCheck, [authorizationCheck]);
     const [files, setFiles] = useState([]);
+    const [history, setHistory] = useState([]);
 
     const updateFiles = () => {
         silentRequest("api/file/get-all")
             .then(r => r && setFiles(r.data));
+        silentRequest("api/file/get-history")
+            .then(r => r && setHistory(r.data));
     }
 
     useEffect(updateFiles, []);
@@ -27,7 +30,7 @@ export default function FileManagerPage() {
         </div>
         <div className="container">
             <p>История создания объектов из файлов:</p>
-            <ImportHistoryTable/>
+            <ImportHistoryTable history={history}/>
         </div>
     </div>
 

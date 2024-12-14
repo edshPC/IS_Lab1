@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 
 const origin = "http://localhost:24770/";
 
-export async function request(url, method = "GET", body = null, formData = null) {
+export async function request(url, method = "GET", body = null, formData = null, blob = false) {
     let headers = {};
     let token = store.getState().token;
     if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -16,6 +16,7 @@ export async function request(url, method = "GET", body = null, formData = null)
         headers,
         body: body || formData || undefined,
     });
+    if (blob) return await raw.blob();
     let res = await raw.json();
     console.log(res);
     if (!res.success) throw new Error(res.message);
@@ -60,4 +61,14 @@ export async function silentRequest(...args) {
 export function updateDragons(dispatch) {
     silentRequest("api/public/get-all-dragons")
         .then(r => r && dispatch(updateState({data: r.data})));
+}
+
+export function downloadFile(blob, filename) {
+    const url = window.URL.createObjectURL(new Blob([blob]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
 }

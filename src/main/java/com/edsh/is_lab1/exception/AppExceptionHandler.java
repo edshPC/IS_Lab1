@@ -29,9 +29,13 @@ public class AppExceptionHandler {
         return SimpleResponse.error(message, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public ResponseEntity<?> handleGlobalException(Exception e) {
+    public ResponseEntity<?> handleGlobalException(Throwable e) {
+        //e.printStackTrace();
+        while (e.getMessage() == null && e.getCause() != null) {
+            e = e.getCause();
+        }
         return SimpleResponse.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
