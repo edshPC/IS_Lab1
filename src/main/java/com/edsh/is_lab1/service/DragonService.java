@@ -7,6 +7,7 @@ import com.edsh.is_lab1.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,25 +37,25 @@ public class DragonService {
                 .orElseThrow(() -> new AppException("No dragon with id " + id, HttpStatus.NOT_FOUND));
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void addDragon(Dragon dragon, User owner) {
         dragon.setOwner(owner);
         applyExistingFields(dragon);
-        personService.checkUniquePassport(dragon.getKiller());
         dragonRepository.save(dragon);
+        personService.checkUniquePassport(dragon.getKiller());
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void addDragons(List<Dragon> dragons, User owner) {
         dragons.forEach(dragon -> addDragon(dragon, owner));
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void updateDragon(Dragon dragon) {
         applyExistingFields(dragon);
         applyExistingIds(dragon);
-        personService.checkUniquePassport(dragon.getKiller());
         dragonRepository.save(dragon);
+        personService.checkUniquePassport(dragon.getKiller());
     }
 
     @Transactional

@@ -7,6 +7,8 @@ import com.edsh.is_lab1.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,19 +30,19 @@ public class PersonService {
 
     public void checkUniquePassport(Person person) {
         if (person == null) return;
-        String passport = person.getPassportID();
-        for (Person p : getAllPeople()) {
-            if (p.getPassportID().equals(passport)) {
+        var existing = personRepository.findFirstByPassportID(person.getPassportID());
+        existing.ifPresent(p -> {
+            if (!p.getId().equals(person.getId())) {
                 throw new AppException("Duplicate passport with person " + p.getId(), HttpStatus.CONFLICT);
             }
-        }
+        });
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void addPerson(Person person) {
         applyExistingFields(person);
-        checkUniquePassport(person);
         personRepository.save(person);
+        checkUniquePassport(person);
     }
 
     @Transactional
