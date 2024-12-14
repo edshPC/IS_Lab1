@@ -18,12 +18,12 @@ export default function FileManagerPage() {
 
     return <div>
         <div className="container">
-            <p>Ваши файлы:</p>
-            <FileTable files={files} onAciton={updateFiles}/>
-        </div>
-        <div className="container">
             <p>Загрузить новый файл:</p>
             <FileUploadForm onAction={updateFiles}/>
+        </div>
+        <div className="container">
+            <p>Ваши файлы:</p>
+            <FileTable files={files} onAciton={updateFiles}/>
         </div>
         <div className="container">
             <p>История создания объектов из файлов:</p>

@@ -26,9 +26,20 @@ public class PersonService {
                 .orElseThrow(() -> new AppException("No person with id " + id, HttpStatus.BAD_REQUEST));
     }
 
+    public void checkUniquePassport(Person person) {
+        if (person == null) return;
+        String passport = person.getPassportID();
+        for (Person p : getAllPeople()) {
+            if (p.getPassportID().equals(passport)) {
+                throw new AppException("Duplicate passport with person " + p.getId(), HttpStatus.CONFLICT);
+            }
+        }
+    }
+
     @Transactional
     public void addPerson(Person person) {
         applyExistingFields(person);
+        checkUniquePassport(person);
         personRepository.save(person);
     }
 

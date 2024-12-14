@@ -127,7 +127,7 @@ function getRandomDragon() {
             },
             height: Math.floor(Math.random() * 100) + 50, // случайный рост от 1.5 до 3 метров
             weight: Math.floor(Math.random() * 100) + 50, // случайный вес от 50 до 150 кг
-            passportID: "1234567890", // фиксированный паспорт ID
+            passportID: String(Math.floor(Math.random() * 9000000000) + 1000000000),
             nationality: getRandomValue(COUNTRY_VALUES) // фиксированная национальность
         }
     };

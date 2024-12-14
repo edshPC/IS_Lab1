@@ -40,6 +40,7 @@ public class DragonService {
     public void addDragon(Dragon dragon, User owner) {
         dragon.setOwner(owner);
         applyExistingFields(dragon);
+        personService.checkUniquePassport(dragon.getKiller());
         dragonRepository.save(dragon);
     }
 
@@ -52,6 +53,7 @@ public class DragonService {
     public void updateDragon(Dragon dragon) {
         applyExistingFields(dragon);
         applyExistingIds(dragon);
+        personService.checkUniquePassport(dragon.getKiller());
         dragonRepository.save(dragon);
     }
 

@@ -21,14 +21,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthRequest authRequest) {
         var user = userService.login(authRequest);
-        var token = userAuthProvider.createToken(authRequest.getLogin());
+        var token = userAuthProvider.createToken(authRequest.getUsername());
         return new AuthResponse(token, user).asResponseEntity();
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody AuthRequest authRequest) {
         var user = userService.register(authRequest);
-        var token = userAuthProvider.createToken(authRequest.getLogin());
+        var token = userAuthProvider.createToken(authRequest.getUsername());
         return new AuthResponse(token, user).asResponseEntity();
     }
 

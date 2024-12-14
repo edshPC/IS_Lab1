@@ -23,7 +23,7 @@ public class UserService {
     }
 
     public User login(AuthRequest authRequest) {
-        User user = findByUsername(authRequest.getLogin());
+        User user = findByUsername(authRequest.getUsername());
         if(passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             return user;
         }
@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public User register(AuthRequest authRequest) {
-        if (userRepository.findByUsername(authRequest.getLogin()).isPresent()) {
+        if (userRepository.findByUsername(authRequest.getUsername()).isPresent()) {
             throw new AppException("User already exists");
         }
         if (authRequest.getPassword().length() < 4) {

@@ -13,14 +13,14 @@ export default function LoginAppMain(props) {
         if (logged_as) navigate("/");
     }, [logged_as, navigate]);
 
-    const [login, setLogin] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const request = useRequest();
 
     const auth = (type) => {
-        if (!login || !password) return;
-        request("api/public/" + type, "POST", {login, password})
+        if (!username || !password) return;
+        request("api/public/" + type, "POST", {username, password})
             .then(r => {
                 dispatch(updateState({
                     token: r.token, logged_as: r.logged_as
@@ -29,7 +29,7 @@ export default function LoginAppMain(props) {
     }
 
     const fetcher = {
-        loginChangeHandle: ev => setLogin(ev.target.value),
+        loginChangeHandle: ev => setUsername(ev.target.value),
         passwordChangeHandle: ev => setPassword(ev.target.value),
         loginHandle: () => auth("login"),
         registerHandle: () => auth("register"),
