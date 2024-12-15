@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -28,8 +29,7 @@ public class FileService {
     private final ObjectMapper objectMapper;
     private final DragonService dragonService;
     private final ImportHistoryRepository importHistoryRepository;
-    @Lazy
-    @Autowired
+    @Setter(onMethod_ = {@Autowired, @Lazy})
     private FileService fileService;
 
     @SneakyThrows
@@ -75,7 +75,7 @@ public class FileService {
     }
 
     @SneakyThrows
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Throwable.class)
     public int importUserFile(MultipartFile file, User user) {
         var dragons = objectMapper.readValue(file.getBytes(), new TypeReference<List<Dragon>>() {
         });
