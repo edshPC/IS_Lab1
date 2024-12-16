@@ -80,17 +80,30 @@ public class FileService {
         var dragons = objectMapper.readValue(file.getBytes(), new TypeReference<List<Dragon>>() {
         });
         dragonService.addDragons(dragons, user);
+        fileService.putUserFile(file, user);
+        return dragons.size();
+    }
 
+    @SneakyThrows
+    public void putUserFile(MultipartFile file, User user) {
         String bucket = createUserBucketIfNotExists(user);
+        var list = getAllFiles(user).stream().map(FileDTO::getName).toList();
+        String ori = file.getOriginalFilename();
+        if (ori == null) ori = "unknown";
+        String name = ori;
+        for (int i = 2; list.contains(name); i++) {
+            String[] names = ori.split("\\.");
+            names[0] += " (" + i + ")";
+            name = String.join(".", names);
+        }
         minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucket)
-                .object(file.getOriginalFilename())
+                .object(name)
                 .contentType(file.getContentType())
                 .stream(file.getInputStream(), file.getSize(), -1)
                 .build());
-
-        return dragons.size();
     }
+
 
     @SneakyThrows
     public void deleteFile(FileDTO file, User user) {
